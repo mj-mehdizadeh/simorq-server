@@ -11,3 +11,12 @@ module.exports = appInfo => {
 
   return config;
 };
+
+exports.io = {
+  namespace: {
+    '/': {
+      connectionMiddleware: ['connection'],
+      packetMiddleware: ['packet'],
+    },
+  },
+};
