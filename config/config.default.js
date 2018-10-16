@@ -9,6 +9,16 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [];
 
+  // add security config
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+    ctoken: {
+      enable: false,
+    },
+  };
+
   return config;
 };
 
