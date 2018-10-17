@@ -19,14 +19,22 @@ module.exports = appInfo => {
     },
   };
 
+  // mongoose config
+  config.mongoose = {
+    client: {
+      url: 'mongodb://127.0.0.1:27017/messenger',
+      options: {},
+    },
+  };
+
   return config;
 };
 
 exports.io = {
   namespace: {
     '/': {
-      connectionMiddleware: ['connection'],
-      packetMiddleware: ['packet'],
+      connectionMiddleware: [ 'connection' ],
+      packetMiddleware: [ 'packet' ],
     },
   },
 };

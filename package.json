@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "egg": "^2.2.1",
+    "egg-mongoose": "^3.1.0",
     "egg-scripts": "^2.5.0",
     "egg-socket.io": "^4.1.4",
     "egg-validate": "^2.0.1"
