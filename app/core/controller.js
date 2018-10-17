@@ -16,7 +16,7 @@ class Controller extends BaseController {
       this.ctx.body = result;
     } catch (e) {
       this.ctx.body = e;
-      this.ctx.status = e.statusCode;
+      this.ctx.status = e.status;
     }
   }
 
@@ -26,6 +26,10 @@ class Controller extends BaseController {
 
   async emitter(result) {
     // emit event to other clients
+  }
+
+  getInput(key) {
+    return this.ctx.request.body[key];
   }
 }
 
