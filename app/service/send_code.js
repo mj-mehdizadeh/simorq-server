@@ -17,6 +17,17 @@ class SendCodeService extends Service {
     }
     return model;
   }
+
+  async validateCode(phone_number, phone_hash, code) {
+    const insertCode = await this.ctx.service.sendCode.find(phone_number);
+    return (
+      insertCode != null
+      &&
+      insertCode.code === code
+      &&
+      insertCode.phone_hash === phone_hash
+    );
+  }
 }
 
 module.exports = SendCodeService;
