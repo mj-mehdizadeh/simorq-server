@@ -6,13 +6,14 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const SendCodeSchema = new Schema({
-    phone_number: { type: Number },
+    phoneNumber: { type: Number },
     code: { type: Number },
-    created_at: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
   });
-  SendCodeSchema.index({ phone_number: 1 }, { expireAfterSeconds: 600, unique: true });
+  SendCodeSchema.index({ phoneNumber: 1 }, { unique: true });
+  SendCodeSchema.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
 
-  SendCodeSchema.virtual('phone_hash').get(function() {
+  SendCodeSchema.virtual('phoneHash').get(function() {
     return sha256Hex(this._id);
   });
 

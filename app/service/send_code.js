@@ -5,32 +5,32 @@ const random = require('lodash').random;
 
 class SendCodeService extends Service {
 
-  find(phone_number) {
-    return this.ctx.model.SendCode.findOne({ phone_number });
+  find(phoneNumber) {
+    return this.ctx.model.SendCode.findOne({ phoneNumber });
   }
 
-  async insertCode(phone_number) {
-    let model = await this.find(phone_number);
+  async insertCode(phoneNumber) {
+    let model = await this.find(phoneNumber);
     if (model == null) {
       const rand = random(10000, 99999);
-      model = await this.ctx.model.SendCode.create({ phone_number, code: rand });
+      model = await this.ctx.model.SendCode.create({ phoneNumber, code: rand });
     }
     return model;
   }
 
-  async validateCode(phone_number, phone_hash, code) {
-    const insertCode = await this.ctx.service.sendCode.find(phone_number);
+  async validateCode(phoneNumber, phoneHash, code) {
+    const insertCode = await this.ctx.service.sendCode.find(phoneHash);
     return (
       insertCode != null
       &&
       insertCode.code === code
       &&
-      insertCode.phone_hash === phone_hash
+      insertCode.phoneHash === phoneHash
     );
   }
 
-  async deleteCode(phone_number) {
-    return this.ctx.model.SendCode.deleteOne({ phone_number });
+  async deleteCode(phoneNumber) {
+    return this.ctx.model.SendCode.deleteOne({ phoneNumber });
   }
 }
 

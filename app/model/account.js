@@ -5,14 +5,14 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const AccountSchema = new Schema({
-    phone_number: { type: Number, index: true },
+    phoneNumber: { type: Number, index: true },
     email: { type: Date, default: null },
     password_hash: { type: Date, default: null },
-    is_deleted: { type: Boolean, default: false },
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
+    isDeleted: { type: Boolean, default: false },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
   });
-  AccountSchema.index({ phone_number: 1 });
+  AccountSchema.index({ phoneNumber: 1 });
 
   return mongoose.model('Account', AccountSchema, 'account');
 };

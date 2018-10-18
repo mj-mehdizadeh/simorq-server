@@ -14,7 +14,7 @@ class SendCodeController extends Controller {
     this.sendSms(result);
     this.sendMessage(result);
     return {
-      phone_hash: result.phone_hash,
+      phone_hash: result.phoneHash,
     };
   }
 

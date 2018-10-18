@@ -4,21 +4,21 @@ const Service = require('egg').Service;
 
 class AccountService extends Service {
 
-  findByPhoneNumber(phone_number) {
-    return this.ctx.model.Account.findOne({ phone_number, is_deleted: false });
+  findByPhoneNumber(phoneNumber) {
+    return this.ctx.model.Account.findOne({ phoneNumber, isDeleted: false });
   }
 
-  insertAccount(phone_number) {
-    return this.ctx.model.Account.create({ phone_number });
+  insertAccount(phoneNumber) {
+    return this.ctx.model.Account.create({ phoneNumber });
   }
 
-  async canLogin(phone_number) {
-    const account = await this.ctx.model.Account.findOne({ phone_number });
+  async canLogin(phoneNumber) {
+    const account = await this.ctx.model.Account.findOne({ phoneNumber });
     return account !== null;
   }
 
-  async canRegister(phone_number) {
-    const account = await this.ctx.model.Account.findOne({ phone_number });
+  async canRegister(phoneNumber) {
+    const account = await this.ctx.model.Account.findOne({ phoneNumber });
     return account === null;
   }
 }
