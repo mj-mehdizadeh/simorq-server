@@ -1,7 +1,6 @@
 'use strict';
 
 const Controller = require('../../core/controller');
-const sha256Hex = require('../../core/security').sha256Hex;
 
 class SendCodeController extends Controller {
   get rules() {
@@ -15,7 +14,7 @@ class SendCodeController extends Controller {
     this.sendSms(result);
     this.sendMessage(result);
     return {
-      phone_hash: sha256Hex(result._id),
+      phone_hash: result.phone_hash,
     };
   }
 
