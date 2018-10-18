@@ -14,8 +14,13 @@ function sha256Hex(input) {
   return sha256(hex2a(input));
 }
 
-function hex2a(hex) {
-  return new Buffer([ hex ], 'hex');
+function hex2a(hexx) {
+  const hex = hexx.toString();
+  let str = '';
+  for (let i = 0; (i < hex.length && hex.substr(i, 2) !== '00'); i += 2) {
+    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  }
+  return str;
 }
 
 exports.md5 = md5;
