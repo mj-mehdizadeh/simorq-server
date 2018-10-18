@@ -15,7 +15,7 @@ function sha256Hex(input) {
 }
 
 function hex2a(hex) {
-  return new Buffer(hex, 'hex');
+  return new Buffer([ hex ], 'hex');
 }
 
 exports.md5 = md5;

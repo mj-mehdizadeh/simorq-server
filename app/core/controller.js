@@ -15,8 +15,7 @@ class Controller extends BaseController {
       this.emitter(result);
       this.ctx.body = result;
     } catch (e) {
-      this.ctx.body = e;
-      this.ctx.status = e.status;
+      throw e;
     }
   }
 
