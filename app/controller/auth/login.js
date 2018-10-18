@@ -5,7 +5,7 @@ const Controller = require('../../core/controller');
 class LoginController extends Controller {
   get rules() {
     return {
-      phone_number: { type: 'string' },
+      phone_number: { type: 'number' },
       phone_hash: { type: 'string' },
       code: { type: 'int' },
     };

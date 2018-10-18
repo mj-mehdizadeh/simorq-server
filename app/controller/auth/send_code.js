@@ -5,7 +5,7 @@ const Controller = require('../../core/controller');
 class SendCodeController extends Controller {
   get rules() {
     return {
-      phone_number: { type: 'string' },
+      phone_number: { type: 'number' },
     };
   }
 
