@@ -28,6 +28,10 @@ class SendCodeService extends Service {
       insertCode.phone_hash === phone_hash
     );
   }
+
+  async deleteCode(phone_number) {
+    return this.ctx.model.SendCode.deleteOne({ phone_number });
+  }
 }
 
 module.exports = SendCodeService;
