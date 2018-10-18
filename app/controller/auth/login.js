@@ -7,7 +7,7 @@ class LoginController extends Controller {
     return {
       phone_number: { type: 'number' },
       phone_hash: { type: 'string' },
-      code: { type: 'int' },
+      phone_code: { type: 'int' },
     };
   }
 
@@ -16,14 +16,18 @@ class LoginController extends Controller {
     const validCode = await this.ctx.service.sendCode.validateCode(
       this.getInput('phone_number'),
       this.getInput('phone_hash'),
-      this.getInput('code')
+      this.getInput('phone_code')
     );
     if (!validCode) {
-      this.throwInvalidError('invalid_verification_code');
+      this.throwInvalidError('invalid_phone_code');
     }
-    // validate phone_number
-    // validate two-step
-    // insert session and return a token
+    // todo validate phone_number
+    // todo validate two-step
+    // todo insert session and return a token
+
+    // delete sendCode
+    await this.ctx.service.sendCode.deleteCode(this.getInput('phone_number'));
+
     return this.ctx.request.body;
   }
 }

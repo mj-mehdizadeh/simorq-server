@@ -19,7 +19,8 @@ class SendCodeService extends Service {
   }
 
   async validateCode(phoneNumber, phoneHash, code) {
-    const insertCode = await this.ctx.service.sendCode.find(phoneHash);
+    const insertCode = await this.ctx.service.sendCode.find(phoneNumber);
+    // todo add PHONE_CODE_EXPIRED error
     return (
       insertCode != null
       &&

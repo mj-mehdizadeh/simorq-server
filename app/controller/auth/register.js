@@ -7,7 +7,7 @@ class RegisterController extends Controller {
     return {
       phone_number: { type: 'number' },
       phone_hash: { type: 'string' },
-      code: { type: 'int' },
+      phone_code: { type: 'int' },
       title: { type: 'string' },
     };
   }
@@ -18,10 +18,10 @@ class RegisterController extends Controller {
     const validCode = await this.ctx.service.sendCode.validateCode(
       this.getInput('phone_number'),
       this.getInput('phone_hash'),
-      this.getInput('code')
+      this.getInput('phone_code')
     );
     if (!validCode) {
-      this.throwInvalidError('invalid_verification_code');
+      this.throwInvalidError('invalid_phone_code');
     }
 
     // validate phone_number
