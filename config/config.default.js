@@ -19,6 +19,12 @@ module.exports = appInfo => {
     },
   };
 
+  // oauth config
+  config.oauth = {
+    accessTokenExpiresTime: 600000,
+    refreshTokenExpiresTime: 7776000000,
+  };
+
   // mongoose config
   config.mongoose = {
     client: {

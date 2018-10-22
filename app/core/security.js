@@ -1,6 +1,8 @@
 'use strict';
 
 const crypto = require('crypto');
+const randomBytes = require('bluebird').promisify(crypto.randomBytes);
+
 
 function md5(input) {
   return crypto.createHash('md5').update(input).digest('hex');
@@ -22,8 +24,16 @@ function hex2a(hexx) {
   }
   return str;
 }
-
+function generateRandomToken() {
+  return randomBytes(256).then(function(buffer) {
+    return crypto
+      .createHash('sha1')
+      .update(buffer)
+      .digest('hex');
+  });
+}
 exports.md5 = md5;
 exports.sha256 = sha256;
 exports.hex2a = hex2a;
 exports.sha256Hex = sha256Hex;
+exports.generateRandomToken = generateRandomToken;
