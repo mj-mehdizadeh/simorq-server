@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('../../core/controller');
+const pick = require('lodash').pick;
 
 class LoginController extends Controller {
   get rules() {
@@ -21,14 +22,23 @@ class LoginController extends Controller {
     if (!validCode) {
       this.throwInvalidError('invalid_phone_code');
     }
-    // todo validate phone_number
+    // validate phone_number
+    const account = await this.ctx.service.account.findByPhoneNumber(this.getInput('phone_number'));
+    if (account == null) {
+      this.throwInvalidError('invalid_phone_number');
+    }
     // todo validate two-step
-    // todo insert session and return a token
+    // insert session and return a token
+    const token = await this.ctx.service.oauthToken.insertToken(account._id);
 
     // delete sendCode
     await this.ctx.service.sendCode.deleteCode(this.getInput('phone_number'));
 
-    return this.ctx.request.body;
+    return pick(token, [
+      'accessToken',
+      'refreshToken',
+      'accessTokenExpiresOn',
+    ]);
   }
 }
 

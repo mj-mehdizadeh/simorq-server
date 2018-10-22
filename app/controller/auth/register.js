@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('../../core/controller');
+const pick = require('lodash').pick;
 
 class RegisterController extends Controller {
   get rules() {
@@ -30,15 +31,21 @@ class RegisterController extends Controller {
     }
 
     // insert account
-    await this.ctx.service.account.insertAccount(this.getInput('phone_number'));
+    const account = await this.ctx.service.account.insertAccount(this.getInput('phone_number'));
 
     // delete sendCode
     await this.ctx.service.sendCode.deleteCode(this.getInput('phone_number'));
 
     // todo insert new room
 
-    // todo generate token
-    return this.ctx.request.body;
+    // generate token
+    const token = await this.ctx.service.oauthToken.insertToken(account._id);
+
+    return pick(token, [
+      'accessToken',
+      'refreshToken',
+      'accessTokenExpiresOn',
+    ]);
   }
 }
 
