@@ -6,21 +6,24 @@ module.exports = app => {
 
   const RoomSchema = new Schema({
     username: {type: String, maxlength: 64, index: true},
-    title: {type: String, maxlength: 64},
+    title: {type: String, maxlength: 64, required: true},
     info: {type: String, maxlength: 254},
     type: {
       type: String,
       enum: ['USER', 'GROUP', 'CHANNEL'],
+      required: true
     },
     presentable: {
       type: String,
       enum: ['PUBLIC', 'PRIVATE'],
+      default: 'PRIVATE'
     },
     status: {
       type: String,
       enum: ['ACTIVE', 'INACTIVE'],
+      required: true
     },
-    createdBy: {type: mongoose.Types.ObjectId},
+    createdBy: {type: Schema.Types.ObjectId, required: true},
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now},
   });

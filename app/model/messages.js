@@ -3,14 +3,15 @@
 module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
-  const ObjectId = mongoose.Schema.Types.ObjectId;
+  const ObjectId = Schema.Types.ObjectId;
 
   const MessageSchema = new Schema({
     refType: {
       type: String,
       enum: ['CHAT', 'ROOM'],
+      required: true
     },
-    refId: mongoose.Types.ObjectId,
+    refId: {type: ObjectId, required: true},
     randomId: Number,
     type: {
       type: String,
@@ -40,7 +41,7 @@ module.exports = app => {
     }, {_id: false}),
     replyTo: ObjectId,
     deletedBy: [ObjectId],
-    createdBy: ObjectId,
+    createdBy: {type: ObjectId, required: true},
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now},
   });

@@ -5,13 +5,13 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const SubscriptionSchema = new Schema({
-    roomId: {type: mongoose.Types.ObjectId, index: true},
-    refId: {type: mongoose.Types.ObjectId, index: true},
+    roomId: {type: Schema.Types.ObjectId, index: true, required: true},
+    refId: {type: Schema.Types.ObjectId, index: true, required: true},
     role: {
       type: String,
       enum: ['MEMBER', 'ADMIN', 'OWNER'],
     },
-    createdBy: {type: mongoose.Types.ObjectId, index: true},
+    createdBy: {type: Schema.Types.ObjectId, index: true, required: true},
     createdAt: {type: Date, default: Date.now},
     lastSeen: {type: Date, default: Date.now},
   });
