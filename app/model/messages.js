@@ -3,6 +3,7 @@
 module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
+  const ObjectId = mongoose.Schema.Types.ObjectId;
 
   const MessageSchema = new Schema({
     refType: {
@@ -17,31 +18,31 @@ module.exports = app => {
     },
     message: {type: String, maxLength: 4096},
     attachment: new Schema({
-      id: {type: mongoose.Types.ObjectId},
+      id: {type: ObjectId},
       mimType: String,
       size: Number,
       width: Number,
       height: Number,
     }, {_id: false}),
     contact: new Schema({
-      roomId: mongoose.Types.ObjectId,
+      roomId: ObjectId,
       title: String,
       phoneNumber: [Number],
       email: [String],
     }, {_id: false}),
     location: new Schema({
-      roomId: mongoose.Types.ObjectId,
+      roomId: ObjectId,
       title: String,
       phoneNumber: [Number],
       email: [String],
     }, {_id: false}),
     forwardFrom: new Schema({
-      roomId: mongoose.Types.ObjectId,
-      messageId: mongoose.Types.ObjectId,
+      roomId: ObjectId,
+      messageId: ObjectId,
     }, {_id: false}),
-    replyTo: mongoose.Types.ObjectId,
-    deletedBy: [mongoose.Types.ObjectId],
-    createdBy: mongoose.Types.ObjectId,
+    replyTo: ObjectId,
+    deletedBy: [ObjectId],
+    createdBy: ObjectId,
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now},
   });
