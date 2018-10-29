@@ -36,7 +36,8 @@ class RegisterController extends Controller {
     // delete sendCode
     await this.ctx.service.sendCode.deleteCode(this.getInput('phone_number'));
 
-    // todo insert new room
+    // insert new room
+    await this.ctx.service.room.insertRoom(this.getInput('title'), null, 'USER', account._id);
 
     // generate token
     const token = await this.ctx.service.oauthToken.insertToken(account._id);

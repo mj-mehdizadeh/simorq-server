@@ -21,7 +21,7 @@ module.exports = app => {
     status: {
       type: String,
       enum: ['ACTIVE', 'INACTIVE'],
-      required: true
+      default: 'ACTIVE'
     },
     createdBy: {type: Schema.Types.ObjectId, required: true},
     createdAt: {type: Date, default: Date.now},
