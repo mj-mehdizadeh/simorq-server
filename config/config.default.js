@@ -33,14 +33,15 @@ module.exports = appInfo => {
     },
   };
 
+  config.io = {
+    namespace: {
+      '/': {
+        connectionMiddleware: [ 'connection' ],
+        packetMiddleware: [ 'packet' ],
+      },
+    },
+  };
+
   return config;
 };
 
-exports.io = {
-  namespace: {
-    '/': {
-      connectionMiddleware: [ 'connection' ],
-      packetMiddleware: [ 'packet' ],
-    },
-  },
-};
