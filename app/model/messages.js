@@ -31,10 +31,8 @@ module.exports = app => {
       email: [String],
     }, {_id: false}),
     location: new Schema({
-      roomId: ObjectId,
-      title: String,
-      phoneNumber: [Number],
-      email: [String],
+      lat: Number,
+      lan: Number,
     }, {_id: false}),
     forwardFrom: new Schema({
       roomId: ObjectId,
