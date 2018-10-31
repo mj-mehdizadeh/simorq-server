@@ -18,11 +18,11 @@ class SendCodeController extends Controller {
     };
   }
 
-  sendSms(object) {
+  sendSms() {
     //
   }
 
-  sendMessage(object) {
+  sendMessage() {
     //
   }
 }

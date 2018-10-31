@@ -1,7 +1,9 @@
-module.exports = options => {
-  return async function (ctx, next) {
+'use strict';
 
-    let token = ctx.request.headers['authorization'] || '';
+module.exports = () => {
+  return async function(ctx, next) {
+
+    let token = ctx.request.headers.authorization || '';
     token = token.replace('Bearer', '');
     token = token.trim();
 
@@ -21,7 +23,7 @@ module.exports = options => {
       ctx.response.type = 'json';
       ctx.throw(401, 'Unauthorized', {
         code,
-      })
+      });
     }
-  }
+  };
 };

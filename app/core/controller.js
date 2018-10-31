@@ -24,7 +24,7 @@ class Controller extends BaseController {
     // handle code
   }
 
-  async emitter(result) {
+  async emitter() {
     // emit event to other clients
   }
 

@@ -24,6 +24,7 @@ function hex2a(hexx) {
   }
   return str;
 }
+
 function generateRandomToken() {
   return randomBytes(256).then(function(buffer) {
     return crypto
@@ -32,6 +33,7 @@ function generateRandomToken() {
       .digest('hex');
   });
 }
+
 exports.md5 = md5;
 exports.sha256 = sha256;
 exports.hex2a = hex2a;

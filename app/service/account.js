@@ -5,7 +5,7 @@ const Service = require('egg').Service;
 class AccountService extends Service {
 
   findById(id) {
-    return this.ctx.model.Account.findById(id)
+    return this.ctx.model.Account.findById(id);
   }
 
   findByPhoneNumber(phoneNumber) {

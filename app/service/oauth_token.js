@@ -5,10 +5,11 @@ const generateRandomToken = require('../core/security').generateRandomToken;
 
 class OAuthTokenService extends Service {
   async findByToken(accessToken) {
-    return this.ctx.model.OauthToken.findOne({accessToken});
+    return this.ctx.model.OauthToken.findOne({ accessToken });
   }
 
-  async findByRefreshToken(refreshToken) {
+  async findByRefreshToken() {
+    //
   }
 
   async insertToken(accountId) {
@@ -16,11 +17,12 @@ class OAuthTokenService extends Service {
       accountId,
       accessToken: await generateRandomToken(),
       refreshToken: await generateRandomToken(),
-      accessTokenExpiresOn: Date.now() + this.app.config.oauth.accessTokenExpiresTime
+      accessTokenExpiresOn: Date.now() + this.app.config.oauth.accessTokenExpiresTime,
     });
   }
 
-  async revokeToken(accountId, accessToken) {
+  async revokeToken() {
+    //
   }
 }
 
