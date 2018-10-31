@@ -17,7 +17,7 @@ class AccountService extends Service {
   }
 
   async canRegister(phoneNumber) {
-    const account = await this.findByPhoneNumber({ phoneNumber });
+    const account = await this.findByPhoneNumber(phoneNumber);
     return account === null;
   }
 }

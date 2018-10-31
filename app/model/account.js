@@ -12,7 +12,6 @@ module.exports = app => {
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   });
-  AccountSchema.index({ phoneNumber: 1 });
 
   return mongoose.model('Account', AccountSchema, 'account');
 };
