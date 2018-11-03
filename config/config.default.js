@@ -42,6 +42,17 @@ module.exports = appInfo => {
     },
   };
 
+  config.onerror = {
+    json(err, ctx) {
+      ctx.body = {
+        code: err.code,
+        params: err.params,
+      };
+      ctx.status = err.status;
+    },
+  };
+
+
   return config;
 };
 

@@ -15,8 +15,7 @@ class Controller extends BaseController {
       this.emitter(result);
       this.ctx.body = result;
     } catch (e) {
-      this.ctx.response.type = 'json';
-      throw e;
+      this.ctx.throwError(e.code, e.errors || e.params || e.data);
     }
   }
 
@@ -32,11 +31,8 @@ class Controller extends BaseController {
     return this.ctx.request.body[key];
   }
 
-  throwInvalidError(code, errors = null) {
-    this.ctx.throw(422, 'Validation Failed', {
-      code,
-      errors,
-    });
+  throwInvalidError(code, params = null) {
+    this.ctx.throwError(code, params);
   }
 }
 
