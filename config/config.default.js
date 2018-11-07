@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1539412428674_1355';
 
   // add your config here
-  config.middleware = [];
+  config.middleware = [ 'encapsulation' ];
 
   // add security config
   config.security = {

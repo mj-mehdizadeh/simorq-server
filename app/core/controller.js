@@ -9,14 +9,10 @@ class Controller extends BaseController {
   }
 
   async run() {
-    try {
-      this.ctx.validate(this.rules);
-      const result = await this.handle();
-      this.emitter(result);
-      this.ctx.body = result;
-    } catch (e) {
-      this.ctx.throwError(e.code, e.errors || e.params || e.data);
-    }
+    this.ctx.validate(this.rules, this.ctx.socket.id ? this.ctx.args[1] : this.ctx.request.body);
+    const result = await this.handle();
+    this.emitter(result);
+    return result;
   }
 
   async handle() {
@@ -28,7 +24,7 @@ class Controller extends BaseController {
   }
 
   getInput(key) {
-    return this.ctx.request.body[key];
+    return this.ctx.socket.id ? this.ctx.args[1][key] : this.ctx.request.body[key];
   }
 
   throwInvalidError(code, params = null) {
