@@ -3,14 +3,16 @@
 module.exports = () => {
   return async function(ctx, next) {
 
-    let token = ctx.request.headers.authorization || '';
-    token = token.replace('Bearer', '');
-    token = token.trim();
+    const token = ctx.request.getToken();
+    if (!token) {
+      ctx.throwError('unauthorized');
+    }
 
-    const tokenModel = await ctx.service.oauthToken.findByToken(token);
+    const tokenModel = await ctx.service.oauthToken.findByToken(ctx.request.getToken());
     if (tokenModel == null || tokenModel.isRefreshTokenExpired) {
       ctx.throwError('unauthorized');
     }
+
     if (tokenModel.isTokenExpired) {
       ctx.throwError('access_token_expired');
     }
