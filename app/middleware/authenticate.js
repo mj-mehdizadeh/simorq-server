@@ -3,11 +3,6 @@
 module.exports = () => {
   return async function(ctx, next) {
 
-    const token = ctx.request.getToken();
-    if (!token) {
-      ctx.throwError('unauthorized');
-    }
-
     const tokenModel = await ctx.service.oauthToken.findByToken(ctx.request.getToken());
     if (tokenModel == null || tokenModel.isRefreshTokenExpired) {
       ctx.throwError('unauthorized');

@@ -24,6 +24,14 @@ class OAuthTokenService extends Service {
   async revokeToken() {
     //
   }
+
+  async getAccountId(accessToken) {
+    const token = this.findByToken(accessToken);
+    if (token == null || token.isRefreshTokenExpired || token.isTokenExpired) {
+      return null;
+    }
+    return token.accountId;
+  }
 }
 
 module.exports = OAuthTokenService;
