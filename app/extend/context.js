@@ -1,5 +1,7 @@
 'use strict';
 
+const io = require('./io');
+
 module.exports = {
   throwError(code, params) {
     this.response.type = 'json';
@@ -8,4 +10,5 @@ module.exports = {
       params,
     });
   },
+  io,
 };
