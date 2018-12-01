@@ -5,7 +5,7 @@ const indexOf = require('lodash').indexOf;
 
 module.exports = new Proxy({}, {
   get(target, name) {
-    if (indexOf([ 'account', 'room', 'ref' ], name) === -1) {
+    if (indexOf([ 'account', 'room', 'chat' ], name) === -1) {
       throw new RangeError(`The ${name} seems invalid`);
     }
     return {

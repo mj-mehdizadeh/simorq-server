@@ -6,7 +6,7 @@ module.exports = app => {
 
   const SubscriptionSchema = new Schema({
     roomId: { type: Schema.Types.ObjectId, index: true, required: true },
-    refId: { type: Schema.Types.ObjectId, index: true, required: true },
+    chatId: { type: Schema.Types.ObjectId, index: true, required: true },
     role: {
       type: String,
       enum: [ 'MEMBER', 'ADMIN', 'OWNER' ],

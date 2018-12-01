@@ -9,8 +9,8 @@ module.exports = () => {
       const subscribes = await this.findUserSubscribes(accountId);
       if (subscribes) {
         subscribes.forEach(subscribe => {
-          if (subscribe.refId) {
-            ctx.io.ref.join(ctx.socket, subscribe.refId);
+          if (subscribe.chatId) {
+            ctx.io.chat.join(ctx.socket, subscribe.chatId);
           } else {
             ctx.io.room.join(ctx.socket, subscribe.roomId);
           }
