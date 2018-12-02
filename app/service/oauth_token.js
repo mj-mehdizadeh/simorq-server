@@ -1,28 +1,28 @@
 'use strict';
 
 const Service = require('egg').Service;
-const generateRandomToken = require('../core/security').generateRandomToken;
 
 class OAuthTokenService extends Service {
   async findByToken(accessToken) {
     return this.ctx.model.OauthToken.findOne({ accessToken });
   }
 
-  async findByRefreshToken() {
-    //
+  async findByRefreshToken(refreshToken) {
+    return this.ctx.model.OauthToken.findOne({ refreshToken });
   }
 
-  async insertToken(accountId) {
-    return this.ctx.model.OauthToken.create({
-      accountId,
-      accessToken: await generateRandomToken(),
-      refreshToken: await generateRandomToken(),
-      accessTokenExpiresOn: Date.now() + this.app.config.oauth.accessTokenExpiresTime,
+  async insertToken(token, client, user) {
+    const model = await this.ctx.model.OauthToken.create({
+      accountId: user.id,
+      accessToken: token.accessToken,
+      accessTokenExpiresOn: token.accessTokenExpiresOn,
+      clientId: client.clientId,
+      refreshToken: token.refreshToken,
+      refreshTokenExpiresOn: token.refreshTokenExpiresOn,
     });
-  }
-
-  async revokeToken() {
-    //
+    model.client = client;
+    model.user = user;
+    return model;
   }
 
   async getAccountId(accessToken) {

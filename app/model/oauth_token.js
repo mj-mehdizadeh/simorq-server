@@ -5,6 +5,7 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const OAuthTokenSchema = new Schema({
+    clientId: { type: String },
     accountId: { type: mongoose.Types.ObjectId, index: true },
     accessToken: { type: String, unique: true },
     refreshToken: { type: String, unique: true },

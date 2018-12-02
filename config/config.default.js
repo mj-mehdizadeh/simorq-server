@@ -20,9 +20,9 @@ module.exports = appInfo => {
   };
 
   // oauth config
-  config.oauth = {
-    accessTokenExpiresTime: 600000,
-    refreshTokenExpiresTime: 7776000000,
+  config.oAuth2Server = {
+    debug: config.env === 'local',
+    grants: [ 'password', 'refresh-token' ],
   };
 
   // mongoose config
