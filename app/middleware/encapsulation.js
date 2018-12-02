@@ -5,7 +5,7 @@ module.exports = () => {
     try {
       ctx.body = await next();
     } catch (e) {
-      ctx.throwError(e.code, e.errors || e.params || e.data);
+      ctx.throwError(e.code || e.error, e.errors || e.params || e.data || e.error_description, e.status);
     }
   };
 };
