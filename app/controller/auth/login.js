@@ -28,17 +28,13 @@ class LoginController extends Controller {
       this.throwInvalidError('invalid_phone_number');
     }
     // todo validate two-step
-    // insert session and return a token
-    const token = await this.ctx.service.oauthToken.insertToken(account._id);
 
     // delete sendCode
     await this.ctx.service.sendCode.deleteCode(this.getInput('phone_number'));
+    // update Login Hash
+    await account.updateLoginHash();
 
-    return pick(token, [
-      'accessToken',
-      'refreshToken',
-      'accessTokenExpiresOn',
-    ]);
+    return account.signedLoginToken();
   }
 }
 

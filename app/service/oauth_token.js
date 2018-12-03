@@ -12,7 +12,7 @@ class OAuthTokenService extends Service {
   }
 
   async insertToken(token, client, user) {
-    const model = await this.ctx.model.OauthToken.create({
+    return this.ctx.model.OauthToken.create({
       accountId: user.id,
       accessToken: token.accessToken,
       accessTokenExpiresOn: token.accessTokenExpiresOn,
@@ -20,9 +20,6 @@ class OAuthTokenService extends Service {
       refreshToken: token.refreshToken,
       refreshTokenExpiresOn: token.refreshTokenExpiresOn,
     });
-    model.client = client;
-    model.user = user;
-    return model;
   }
 
   async getAccountId(accessToken) {

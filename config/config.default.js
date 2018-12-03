@@ -42,6 +42,10 @@ module.exports = appInfo => {
     },
   };
 
+  config.jwt = {
+    secret: 'drGxqSD1acm2hFg4K7kegQSBBVfgG',
+  };
+
   config.onerror = {
     json(err, ctx) {
       ctx.body = {
