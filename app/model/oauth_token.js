@@ -22,6 +22,10 @@ module.exports = app => {
     return expire.getTime() + app.config.oauth.refreshTokenExpiresTime < Date.now();
   });
 
+  OAuthTokenSchema.methods.updateAccessToken = async function(accessToken) {
+    this.set({ accessToken });
+    return this.save();
+  };
 
   return mongoose.model('OAuthToken', OAuthTokenSchema, 'oauth_token');
 };

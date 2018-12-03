@@ -5,7 +5,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/', controller.home.index);
+  router.get('/', app.oAuth2Server.authenticate(), controller.home.index);
   app.all('/auth/token', app.oAuth2Server.token());
   router.post('/auth/sendCode', controller.auth.sendCode.run);
   router.post('/auth/login', controller.auth.login.run);

@@ -22,7 +22,7 @@ module.exports = appInfo => {
   // oauth config
   config.oAuth2Server = {
     debug: config.env === 'local',
-    grants: [ 'password', 'refresh-token' ],
+    grants: [ 'password', 'refresh_token' ],
   };
 
   // mongoose config

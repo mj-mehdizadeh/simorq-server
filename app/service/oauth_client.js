@@ -8,13 +8,13 @@ class OAuthClientService extends Service {
   }
 
   findByClientId(clientId) {
-    return this.ctx.model.OauthClient.findOne({clientId});
+    return this.ctx.model.OauthClient.findOne({ clientId });
   }
 
   async findClient(clientId, clientSecret) {
     const client = await this.findByClientId(clientId);
     if (client && client.clientSecret != null && client.clientSecret !== clientSecret) {
-      return null
+      return null;
     }
     return client;
   }
