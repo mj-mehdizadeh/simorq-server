@@ -3,9 +3,6 @@
 const Service = require('egg').Service;
 
 class OAuthClientService extends Service {
-  findById(id) {
-    return this.ctx.model.OauthClient.findById(id);
-  }
 
   findByClientId(clientId) {
     return this.ctx.model.OauthClient.findOne({ clientId });
@@ -17,6 +14,10 @@ class OAuthClientService extends Service {
       return null;
     }
     return client;
+  }
+
+  constructModel(params) {
+    return new this.ctx.model.OauthClient(params);
   }
 }
 

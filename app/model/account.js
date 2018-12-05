@@ -31,6 +31,7 @@ module.exports = app => {
     if (result.phone_number !== this.phoneNumber || result.hash !== this.loginHash) {
       throw new Error('Verify Error');
     }
+    this.revokeLoginHash = true;
   };
 
   AccountSchema.methods.updateLoginHash = async function(clear = false) {

@@ -20,6 +20,10 @@ class AccountService extends Service {
     const account = await this.findByPhoneNumber(phoneNumber);
     return account === null;
   }
+
+  constructModel(params) {
+    return new this.ctx.model.Account(params);
+  }
 }
 
 module.exports = AccountService;

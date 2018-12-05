@@ -9,8 +9,8 @@ module.exports = app => {
 
     async generateAccessToken(client, user) {
       return app.jwt.sign({
-        clientId: client._id,
-        accountId: user._id,
+        clientId: client.clientId,
+        accountId: user.id,
       },
       app.config.jwt.secret,
       {
@@ -34,10 +34,11 @@ module.exports = app => {
 
     async getAccessToken(bearerToken) {
       try {
-        const result = await app.jwt.verify(bearerToken, app.config.jwt.secret);
-        result.accessTokenExpiresAt = new Date(result.exp * 1000);
-        result.user = { _id: result.accountId };
-        result.client = { _id: result.clientId };
+        const verifyed = await app.jwt.verify(bearerToken, app.config.jwt.secret);
+        verifyed.accessTokenExpiresAt = new Date(verifyed.exp * 1000);
+        const result = this.ctx.service.oauthToken.constructModel(verifyed);
+        result.user = this.ctx.service.account.constructModel({ id: result.accountId });
+        result.client = this.ctx.service.oauthClient.constructModel({ clientId: result.clientId });
         return result;
       } catch (e) {
         return null;
@@ -46,14 +47,16 @@ module.exports = app => {
 
     async getRefreshToken(refreshToken) {
       const token = await this.ctx.service.oauthToken.findByRefreshToken(refreshToken);
-      token.user = { _id: token.accountId };
-      token.client = { id: token.clientId };
+      if (token != null) {
+        token.user = this.ctx.service.account.constructModel({ id: token.accountId });
+        token.client = this.ctx.service.oauthClient.constructModel({ clientId: token.clientId });
+      }
       return token;
     }
 
     async revokeToken(token) {
       try {
-        token.accessToken = await this.generateAccessToken({ _id: token.accountId }, { _id: token.clientId });
+        token.accessToken = await this.generateAccessToken({ id: token.accountId }, { clientId: token.clientId });
         return true;
       } catch (e) {
         return false;
@@ -64,7 +67,7 @@ module.exports = app => {
       const tokenModel = await this.ctx.service.oauthToken.insertToken(token, client, user);
       tokenModel.client = client;
       tokenModel.user = user;
-      if (user.hasOwnProperty('updateLoginHash')) {
+      if (user.revokeLoginHash) {
         await user.updateLoginHash(true);
       }
       return tokenModel;

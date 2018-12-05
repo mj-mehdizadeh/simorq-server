@@ -22,12 +22,8 @@ class OAuthTokenService extends Service {
     });
   }
 
-  async getAccountId(accessToken) {
-    const token = this.findByToken(accessToken);
-    if (token == null || token.isRefreshTokenExpired || token.isTokenExpired) {
-      return null;
-    }
-    return token.accountId;
+  constructModel(params) {
+    return new this.ctx.model.OauthToken(params);
   }
 }
 
