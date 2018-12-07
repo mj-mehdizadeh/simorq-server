@@ -44,6 +44,7 @@ module.exports = appInfo => {
 
   config.jwt = {
     secret: 'drGxqSD1acm2hFg4K7kegQSBBVfgG',
+    expiresIn: '15m',
   };
 
   config.onerror = {

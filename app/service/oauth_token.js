@@ -15,10 +15,8 @@ class OAuthTokenService extends Service {
     return this.ctx.model.OauthToken.create({
       accountId: user.id,
       accessToken: token.accessToken,
-      accessTokenExpiresOn: token.accessTokenExpiresOn,
       clientId: client.clientId,
       refreshToken: token.refreshToken,
-      refreshTokenExpiresOn: token.refreshTokenExpiresOn,
     });
   }
 

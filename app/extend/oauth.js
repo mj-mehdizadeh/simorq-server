@@ -14,7 +14,7 @@ module.exports = app => {
       },
       app.config.jwt.secret,
       {
-        expiresIn: '15m',
+        expiresIn: app.config.jwt.expiresIn,
       });
     }
 
@@ -34,9 +34,8 @@ module.exports = app => {
 
     async getAccessToken(bearerToken) {
       try {
-        const verifyed = await app.jwt.verify(bearerToken, app.config.jwt.secret);
-        verifyed.accessTokenExpiresAt = new Date(verifyed.exp * 1000);
-        const result = this.ctx.service.oauthToken.constructModel(verifyed);
+        const verified = await app.jwt.verify(bearerToken, app.config.jwt.secret);
+        const result = this.ctx.service.oauthToken.constructModel(verified);
         result.user = this.ctx.service.account.constructModel({ id: result.accountId });
         result.client = this.ctx.service.oauthClient.constructModel({ clientId: result.clientId });
         return result;

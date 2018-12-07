@@ -9,7 +9,6 @@ module.exports = app => {
     accountId: { type: mongoose.Types.ObjectId, index: true },
     accessToken: { type: String, unique: true },
     refreshToken: { type: String, unique: true },
-    accessTokenExpiresAt: { type: Date },
     createdAt: { type: Date, default: Date.now },
   });
 
