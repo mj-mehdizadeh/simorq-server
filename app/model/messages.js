@@ -17,7 +17,7 @@ module.exports = app => {
       type: String,
       enum: [ 'PHOTO', 'VIDEO', 'VOICE', 'MUSIC', 'FILE', 'GIF', 'CONTACT', 'LOCATION', 'LINK' ],
     },
-    message: { type: String, maxLength: 4096 },
+    text: { type: String, maxLength: 4096 },
     attachment: new Schema({
       id: { type: ObjectId },
       mimType: String,

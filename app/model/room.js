@@ -18,11 +18,6 @@ module.exports = app => {
       enum: [ 'PUBLIC', 'PRIVATE' ],
       default: 'PRIVATE',
     },
-    status: {
-      type: String,
-      enum: [ 'ACTIVE', 'INACTIVE' ],
-      default: 'ACTIVE',
-    },
     createdBy: { type: Schema.Types.ObjectId, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

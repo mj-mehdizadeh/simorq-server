@@ -1,0 +1,220 @@
+{
+  "constructors": {
+    "error": {
+      "name": "string",
+      "params": "any"
+    },
+    "file": {
+      "id": "string",
+      "name": "string",
+      "size": "number",
+      "mime_type": "string",
+      "access_hash": "string",
+      "url": "string",
+      "thumbnails": [
+        {
+          "size": "number",
+          "mime_type": "string",
+          "selector": "string|in:SMALL,LARGE"
+        }
+      ]
+    },
+    "contact": {
+      "roomId": "string",
+      "title": "string",
+      "phone_number": "string",
+      "email": "string"
+    },
+    "room": {
+      "id": "string",
+      "type": "string|in:USER,GROUP,CHANNEL",
+      "presentable": "string|in:PUBLIC,PRIVATE",
+      "invite_link": "string|required_if:presentable=PRIVATE",
+      "access": "string|in:MEMBER,ADMIN,OWNER|required_if:type=GROUP,type=CHANNEL",
+      "subscribed": "bool",
+      "access_hash": "string",
+      "username": "string",
+      "title": "string",
+      "info": "string",
+      "avatar": {
+        "color": "string",
+        "initials": "string",
+        "file": "file",
+        "avatar_count": "number"
+      },
+      "status": "in:ONLINE,OFFLINE|required_if:type=USER",
+      "last_seen": "dateTime|required_if:type=USER",
+      "members_count": "number|required_if:type=GROUP,type=CHANNEL",
+      "unread_count": "number",
+      "last_message": "message|nullable",
+      "first_unread_message": "message|nullable",
+      "draft": {
+        "message": "text",
+        "reply_to": "string"
+      },
+      "mute": "bool",
+      "pinned": "number|nullable",
+      "pinned_message": "message|nullable",
+      "verified": "bool",
+      "blocked": "bool|required_if:type=USER",
+      "deleted": "bool|required_if:type=USER"
+    },
+    "message": {
+      "id": "string",
+      "roomId": "string",
+      "type": "string|enum:PHOTO,VIDEO,VOICE,MUSIC,FILE,GIF,CONTACT,LOCATION,LINK",
+      "text": "string|max:4096",
+      "attachment": [
+        "file"
+      ],
+      "contact": "contact",
+      "location": {
+        "lat": "number",
+        "lan": "number"
+      },
+      "forwardFrom": {
+        "roomId": "string",
+        "messageId": "string"
+      },
+      "replyTo": "string|nullable",
+      "author": "string",
+      "created_at": "dateTime",
+      "updated_at": "dateTime"
+    }
+  },
+  "methods": {
+    "POST:auth.sendCode": {
+      "request": {
+        "phone_number": "number"
+      },
+      "response": {
+        "phone_hash": "string"
+      }
+    },
+    "POST:auth.login": {
+      "request": {
+        "phone_number": "number",
+        "phone_hash": "string",
+        "phone_code": "number"
+      },
+      "response": {
+        "login_hash": "string"
+      }
+    },
+    "POST:auth.register": {
+      "request": {
+        "title": "string",
+        "phone_number": "number",
+        "phone_hash": "string",
+        "phone_code": "number"
+      },
+      "response": {
+        "login_hash": "string"
+      }
+    },
+    "POST:auth.token": {
+      "request": {
+        "grant_type": "string|in:refresh_token,password",
+        "refresh_token": "string|require_if:grant_type=refresh_token",
+        "username": "string|require_if:grant_type=password",
+        "password": "string|require_if:grant_type=password",
+        "client_id": "string"
+      },
+      "response": {
+        "access_token": "string",
+        "token_type": "string",
+        "refresh_token": "string"
+      }
+    },
+    "GET:rooms": {
+      "request": {
+        "roomId": "string",
+        "username": "string"
+      },
+      "response": [
+        "room"
+      ]
+    },
+    "POST:rooms": {
+      "request": {
+        "type": "string|in:GROUP,CHANNEL",
+        "presentable": "string|in:PUBLIC,PRIVATE",
+        "username": "string",
+        "title": "string",
+        "info": "string",
+        "avatar": "string"
+      },
+      "response": "room"
+    },
+    "PATCH:rooms": {
+      "request": {
+        "type": "string|in:GROUP,CHANNEL",
+        "presentable": "string|in:PUBLIC,PRIVATE",
+        "username": "string",
+        "title": "string",
+        "info": "string",
+        "avatar": "string"
+      },
+      "response": "room"
+    },
+    "DELETE:rooms": {
+      "request": {
+        "id": "string"
+      },
+      "response": "bool"
+    },
+    "GET:rooms/{roomId}/messages": {
+      "request": {
+        "from": "string",
+        "direction": "string|in:UP,DOWN",
+        "limit": "number",
+        "offset": "string"
+      },
+      "response": [
+        "message"
+      ]
+    },
+    "POST:rooms/{roomId}/messages": {
+      "request": {
+        "roomId": "string",
+        "randomId": "string",
+        "type": "string|enum:PHOTO,VIDEO,VOICE,MUSIC,FILE,GIF,CONTACT,LOCATION,LINK",
+        "text": "string|max:4096",
+        "attachment": "string",
+        "contact": "contact",
+        "location": "location",
+        "forwardFrom": {
+          "roomId": "string",
+          "messageId": "string"
+        },
+        "replyTo": "string"
+      },
+      "response": "string"
+    },
+    "DELETE:rooms/{roomId}/messages": {
+      "request": {
+        "id": "string"
+      },
+      "response": "bool"
+    },
+    "POST:rooms/{roomId}/subscribe": {
+      "request": {
+        "roomId": "string"
+      },
+      "response": "bool"
+    },
+    "DELETE:rooms/{roomId}/subscribe": {
+      "request": {
+        "roomId": "string"
+      },
+      "response": "bool"
+    },
+    "PATCH:rooms/{roomId}/subscribe": {
+      "request": {
+        "pinned": "bool",
+        "read": "bool"
+      },
+      "response": "bool"
+    }
+  }
+}
