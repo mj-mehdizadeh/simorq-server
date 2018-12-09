@@ -8,7 +8,8 @@ module.exports = () => {
         ctx.body = response;
       }
     } catch (e) {
-      ctx.throwError(e.code || e.error, e.errors || e.params || e.data || e.error_description, e.status);
+      console.log('Error', e);
+      ctx.throwError(e.code || e.name || e.error, e.errors || e.params || e.data || e.error_description, e.status);
     }
   };
 };

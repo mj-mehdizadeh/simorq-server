@@ -27,8 +27,8 @@ class Controller extends BaseController {
     return this.ctx.socket.id ? this.ctx.args[1][key] : this.ctx.request.body[key];
   }
 
-  throwInvalidError(code, params = null) {
-    this.ctx.throwError(code, params);
+  throwInvalidError(name, params = null) {
+    this.ctx.throwError(name, params);
   }
 }
 

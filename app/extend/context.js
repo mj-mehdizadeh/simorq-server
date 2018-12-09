@@ -3,10 +3,10 @@
 const io = require('./io');
 
 module.exports = {
-  throwError(code, params, status = 400) {
+  throwError(name, params, status = 400) {
     this.response.type = 'json';
-    this.throw(status, 'Bad Request', {
-      code,
+    this.throw(status, {
+      name,
       params,
     });
   },

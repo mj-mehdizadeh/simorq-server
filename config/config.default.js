@@ -49,7 +49,7 @@ module.exports = appInfo => {
   config.onerror = {
     json(err, ctx) {
       ctx.body = {
-        code: err.code,
+        name: err.name,
         params: err.params,
       };
       ctx.status = err.status;
