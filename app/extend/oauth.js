@@ -37,7 +37,7 @@ module.exports = app => {
         const verified = await app.jwt.verify(bearerToken, app.config.jwt.secret);
         const result = this.ctx.service.oauthToken.constructModel(verified);
         result.accessTokenExpiresAt = new Date(result.exp * 1000);
-        result.user = this.ctx.service.account.constructModel({ id: result.accountId });
+        result.user = this.ctx.service.account.constructModel({ _id: result.accountId });
         result.client = this.ctx.service.oauthClient.constructModel({ clientId: result.clientId });
         return result;
       } catch (e) {
@@ -48,7 +48,7 @@ module.exports = app => {
     async getRefreshToken(refreshToken) {
       const token = await this.ctx.service.oauthToken.findByRefreshToken(refreshToken);
       if (token != null) {
-        token.user = this.ctx.service.account.constructModel({ id: token.accountId });
+        token.user = this.ctx.service.account.constructModel({ _id: token.accountId });
         token.client = this.ctx.service.oauthClient.constructModel({ clientId: token.clientId });
       }
       return token;
@@ -56,7 +56,7 @@ module.exports = app => {
 
     async revokeToken(token) {
       try {
-        token.accessToken = await this.generateAccessToken({ id: token.accountId }, { clientId: token.clientId });
+        token.accessToken = await this.generateAccessToken({ _id: token.accountId }, { clientId: token.clientId });
         return true;
       } catch (e) {
         return false;
