@@ -1,7 +1,6 @@
 'use strict';
 
 const Controller = require('../../core/controller');
-const pick = require('lodash').pick;
 
 class LoginController extends Controller {
   get rules() {
@@ -34,7 +33,9 @@ class LoginController extends Controller {
     // update Login Hash
     await account.updateLoginHash();
 
-    return account.signedLoginToken();
+    return {
+      login_hash: account.signedLoginToken(),
+    };
   }
 }
 

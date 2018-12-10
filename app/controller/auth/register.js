@@ -41,7 +41,9 @@ class RegisterController extends Controller {
     // generate token
     await account.updateLoginHash();
 
-    return account.signedLoginToken();
+    return {
+      login_hash: account.signedLoginToken(),
+    };
   }
 }
 

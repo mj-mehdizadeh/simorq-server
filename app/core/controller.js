@@ -9,22 +9,16 @@ class Controller extends BaseController {
   }
 
   async run() {
-    this.ctx.validate(this.rules, this.ctx.socket.id ? this.ctx.args[1] : this.ctx.request.body);
-    const result = await this.handle();
-    this.emitter(result);
-    return result;
+    this.ctx.validate(this.rules, this.ctx.request.body);
+    return this.handle();
   }
 
   async handle() {
     // handle code
   }
 
-  async emitter() {
-    // emit event to other clients
-  }
-
   getInput(key) {
-    return this.ctx.socket.id ? this.ctx.args[1][key] : this.ctx.request.body[key];
+    return this.ctx.request.body[key];
   }
 
   throwInvalidError(name, params = null) {
