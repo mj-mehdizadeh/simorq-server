@@ -36,6 +36,7 @@ module.exports = app => {
       try {
         const verified = await app.jwt.verify(bearerToken, app.config.jwt.secret);
         const result = this.ctx.service.oauthToken.constructModel(verified);
+        result.accessTokenExpiresAt = new Date(result.exp * 1000);
         result.user = this.ctx.service.account.constructModel({ id: result.accountId });
         result.client = this.ctx.service.oauthClient.constructModel({ clientId: result.clientId });
         return result;
