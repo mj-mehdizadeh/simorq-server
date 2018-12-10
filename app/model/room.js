@@ -13,7 +13,7 @@ module.exports = app => {
       enum: [ 'USER', 'GROUP', 'CHANNEL' ],
       required: true,
     },
-    presentable: {
+    availability: {
       type: String,
       enum: [ 'PUBLIC', 'PRIVATE' ],
       default: 'PRIVATE',
@@ -22,6 +22,18 @@ module.exports = app => {
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   });
+
+  RoomSchema.methods.presentable = function() {
+    return {
+      id: this.id,
+      title: this.title,
+      info: this.info,
+      type: this.type,
+      presentable: this.presentable,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  };
 
   return mongoose.model('Room', RoomSchema, 'room');
 };
