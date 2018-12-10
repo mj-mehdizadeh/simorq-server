@@ -26,10 +26,11 @@ module.exports = app => {
   RoomSchema.methods.presentable = function() {
     return {
       id: this.id,
+      username: this.username,
       title: this.title,
       info: this.info,
       type: this.type,
-      presentable: this.presentable,
+      availability: this.availability,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

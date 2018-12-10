@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const generateRandomToken = require('../core/security').generateRandomToken;
 
 class RoomService extends Service {
 
@@ -12,12 +13,20 @@ class RoomService extends Service {
     return this.ctx.model.Room.findOne({ username });
   }
 
+  async checkUsername(username, roomId) {
+    const room = await this.ctx.model.Room.findOne({ username }).select({ _id: 1 });
+    return (room == null || (roomId && room.id === roomId));
+  }
+
   findChat(createdBy) {
     return this.ctx.model.Room.findOne({ createdBy, type: 'USER' });
   }
 
-  insertRoom(title, info, type, createdBy) {
-    return this.ctx.model.Room.create({ title, info, type, createdBy });
+  async insertRoom(title, info, type, createdBy) {
+    return this.ctx.model.Room.create({
+      username: type !== 'USER' ? await generateRandomToken() : null,
+      title, info, type, createdBy,
+    });
   }
 
   editRoom(id, params) {

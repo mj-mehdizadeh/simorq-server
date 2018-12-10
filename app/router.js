@@ -11,4 +11,5 @@ module.exports = app => {
   router.post('/auth/login', controller.auth.login.run);
   router.post('/auth/register', controller.auth.register.run);
   router.post('/rooms', app.oAuth2Server.authenticate(), controller.rooms.create.run);
+  router.patch('/rooms/:id', app.oAuth2Server.authenticate(), controller.rooms.edit.run);
 };
