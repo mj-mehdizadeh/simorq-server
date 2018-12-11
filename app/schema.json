@@ -25,6 +25,27 @@
       "phone_number": "string",
       "email": "string"
     },
+    "shortRoom": {
+      "id": "string",
+      "short": "true",
+      "type": "string|in:USER,GROUP,CHANNEL",
+      "presentable": "string|in:PUBLIC,PRIVATE",
+      "invite_link": "string|required_if:presentable=PRIVATE",
+      "username": "string",
+      "title": "string",
+      "info": "string",
+      "avatar": {
+        "color": "string",
+        "initials": "string",
+        "file": "file",
+        "avatar_count": "number"
+      },
+      "status": "in:ONLINE,OFFLINE|required_if:type=USER",
+      "last_seen": "dateTime|required_if:type=USER",
+      "members_count": "number|required_if:type=GROUP,type=CHANNEL",
+      "verified": "bool",
+      "deleted": "bool|required_if:type=USER"
+    },
     "room": {
       "id": "string",
       "type": "string|in:USER,GROUP,CHANNEL",
@@ -138,8 +159,6 @@
     "POST:rooms": {
       "request": {
         "type": "string|in:GROUP,CHANNEL",
-        "presentable": "string|in:PUBLIC,PRIVATE",
-        "username": "string",
         "title": "string",
         "info": "string",
         "avatar": "string"
@@ -149,7 +168,7 @@
     "PATCH:rooms": {
       "request": {
         "type": "string|in:GROUP,CHANNEL",
-        "presentable": "string|in:PUBLIC,PRIVATE",
+        "revoke_invite_link": "bool",
         "username": "string",
         "title": "string",
         "info": "string",
@@ -197,24 +216,52 @@
       },
       "response": "bool"
     },
-    "POST:rooms/{roomId}/subscribe": {
+    "POST:rooms/subscribe": {
+      "request": {
+        "roomId": "string",
+        "invite_link": "string"
+      },
+      "response": "bool"
+    },
+    "DELETE:rooms/subscribe": {
       "request": {
         "roomId": "string"
       },
       "response": "bool"
     },
-    "DELETE:rooms/{roomId}/subscribe": {
+    "PATCH:rooms/subscribe": {
       "request": {
-        "roomId": "string"
+        "roomId": "string",
+        "pin": "bool",
+        "read": "bool",
+        "block": "bool"
       },
       "response": "bool"
+    }
+  },
+  "updates": {
+    "newMessage": "message",
+    "editMessage": "message:partials",
+    "deleteMessage": {
+      "roomId": "string",
+      "messageId": "string"
     },
-    "PATCH:rooms/{roomId}/subscribe": {
-      "request": {
-        "pinned": "bool",
-        "read": "bool"
-      },
-      "response": "bool"
+    "joinRoom": {
+      "roomId": "string",
+      "memberId": "string"
+    },
+    "leftRoom": {
+      "roomId": "string",
+      "memberId": "string"
+    },
+    "editRoom": "room:partials",
+    "deleteRoom": {
+      "roomId": "string"
+    },
+    "roomAction": {
+      "roomId": "string",
+      "type": "string|enum:CANCEL,TYPING,SEND_PHOTO,SEND_VIDEO,SEND_VOICE,SEND_MUSIC,SEND_FILE,SEND_GIF,SEND_CONTACT,SEND_LOCATION",
+      "memberId": "string"
     }
   }
 }

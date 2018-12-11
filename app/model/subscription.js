@@ -18,7 +18,8 @@ module.exports = app => {
     clearAt: { type: Date },
     createdBy: { type: Schema.Types.ObjectId, index: true, required: true },
     createdAt: { type: Date, default: Date.now },
-    lastSeen: { type: Date, default: Date.now },
+    lastRead: { type: Date, default: Date.now },
+    lastPeerRead: { type: Date, default: Date.now },
   });
 
   SubscriptionSchema.methods.presentable = function() {
