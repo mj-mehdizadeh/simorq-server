@@ -21,6 +21,10 @@ class Controller extends BaseController {
     // handle code
   }
 
+  get accountId() {
+    return this.ctx.locals.oauth.token.accountId;
+  }
+
   getInput(key) {
     return this.ctx.request.body[key];
   }

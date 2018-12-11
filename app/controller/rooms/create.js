@@ -16,8 +16,11 @@ class CreateController extends Controller {
       this.getInput('title'),
       this.getInput('info'),
       this.getInput('type'),
-      this.ctx.locals.oauth.token.accountId
+      this.accountId
     );
+    // insert owner subscription
+    await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'OWNER');
+
     return room.presentable();
   }
 }

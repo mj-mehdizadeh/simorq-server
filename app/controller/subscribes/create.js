@@ -13,7 +13,6 @@ class CreateController extends Controller {
   async handle() {
     const roomId = this.getInput('room_id');
     const inviteLink = this.getInput('invite_link');
-    const accountId = this.ctx.locals.oauth.token.accountId;
 
     let room = null;
     if (inviteLink) {
@@ -28,7 +27,7 @@ class CreateController extends Controller {
       this.throwInvalidError('room_not_found');
     }
 
-    const subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, accountId, 'MEMBER');
+    const subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'MEMBER');
     return subscribe.presentable();
   }
 }
