@@ -30,7 +30,7 @@
       "type": "string|in:USER,GROUP,CHANNEL",
       "presentable": "string|in:PUBLIC,PRIVATE",
       "invite_link": "string|required_if:presentable=PRIVATE",
-      "access": "string|in:MEMBER,ADMIN,OWNER|required_if:type=GROUP,type=CHANNEL",
+      "role": "string|in:MEMBER,ADMIN,OWNER|required_if:type=GROUP,type=CHANNEL",
       "subscribed": "bool",
       "access_hash": "string",
       "username": "string",
