@@ -6,6 +6,7 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const AccountSchema = new Schema({
+    roomId: { type: Schema.Types.ObjectId, index: true },
     phoneNumber: { type: Number, index: true },
     email: { type: String, maxlength: 256, trim: true, default: null },
     passwordHash: { type: String, default: null },

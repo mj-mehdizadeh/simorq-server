@@ -14,6 +14,7 @@ class OAuthTokenService extends Service {
   async insertToken(token, client, user) {
     return this.ctx.model.OauthToken.create({
       accountId: user.id,
+      roomId: user.roomId,
       accessToken: token.accessToken,
       clientId: client.clientId,
       refreshToken: token.refreshToken,

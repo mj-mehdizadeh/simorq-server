@@ -7,6 +7,7 @@ module.exports = app => {
   const OAuthTokenSchema = new Schema({
     clientId: { type: String },
     accountId: { type: mongoose.Types.ObjectId, index: true },
+    roomId: { type: mongoose.Types.ObjectId },
     accessToken: { type: String, unique: true },
     refreshToken: { type: String, unique: true },
     createdAt: { type: Date, default: Date.now },
