@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = appInfo => {
   const config = exports = {};
 
@@ -54,6 +56,12 @@ module.exports = appInfo => {
     },
   };
 
+  config.multipart = {
+    fileSize: '1000mb',
+    whitelist: filename => [ path.extname(filename) || 'png' ],
+    videoFileFormats: [ '.webm', '.mkv', '.flv', '.flv', '.vob', '.ogv', '.drc', '.gif', '.gifv', '.mng', '.avi', '.MTS', '.mov', '.wmv', '.yuv', '.rm', '.rmvb', '.asf', '.amv', '.mp4', '.mpg', '.mpg', '.m4v', '.svi', '.3gp', '.3g2', '.mxf', '.roq', '.nsv', '.flv' ],
+    imageFileFormats: [ '.jpg', '.png', '.gif', '.webp', '.tif', '.bmp', '.jxr', '.psd' ],
+  };
 
   return config;
 };

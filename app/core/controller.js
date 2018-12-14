@@ -13,6 +13,7 @@ class Controller extends BaseController {
       this.ctx.validate(this.rules, this.ctx.request.body);
       this.ctx.body = await this.handle();
     } catch (e) {
+      console.log('e', e);
       this.ctx.throwError(e.code || e.name, e.errors || e.params, e.status);
     }
   }
