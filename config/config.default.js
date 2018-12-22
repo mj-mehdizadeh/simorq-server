@@ -59,8 +59,25 @@ module.exports = appInfo => {
   config.multipart = {
     fileSize: '1000mb',
     whitelist: filename => [ path.extname(filename) || 'png' ],
-    videoFileFormats: [ '.webm', '.mkv', '.flv', '.flv', '.vob', '.ogv', '.drc', '.gif', '.gifv', '.mng', '.avi', '.MTS', '.mov', '.wmv', '.yuv', '.rm', '.rmvb', '.asf', '.amv', '.mp4', '.mpg', '.mpg', '.m4v', '.svi', '.3gp', '.3g2', '.mxf', '.roq', '.nsv', '.flv' ],
-    imageFileFormats: [ '.jpg', '.png', '.gif', '.webp', '.tif', '.bmp', '.jxr', '.psd' ],
+  };
+  config.files = {
+    videoFormats: [ '.webm', '.mkv', '.flv', '.vob', '.ogv', '.drc', '.gif', '.gifv', '.mng', '.avi', '.MTS', '.mov', '.wmv', '.yuv', '.rm', '.rmvb', '.asf', '.amv', '.mp4', '.mpg', '.mpg', '.m4v', '.svi', '.3gp', '.3g2', '.mxf', '.roq', '.nsv', '.flv' ],
+    imageFormats: [ '.jpg', '.png', '.gif', '.webp', '.tif', '.bmp', '.jxr', '.psd' ],
+    localPath: 'uploads',
+    thumbs: {
+      small: {
+        name: 'small.png',
+        size: '90x?',
+      },
+      medium: {
+        name: 'medium.png',
+        size: '320x?',
+      },
+      large: {
+        name: 'large.png',
+        size: '600x?',
+      },
+    },
   };
 
   return config;

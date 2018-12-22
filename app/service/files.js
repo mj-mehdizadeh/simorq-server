@@ -11,6 +11,10 @@ class FilesService extends Service {
   insertFile(params) {
     return this.ctx.model.Files.create(params);
   }
+
+  constructModel(params) {
+    return new this.ctx.model.Files(params);
+  }
 }
 
 module.exports = FilesService;

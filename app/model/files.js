@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 
 module.exports = app => {
   const mongoose = app.mongoose;
@@ -16,7 +17,6 @@ module.exports = app => {
         type: String,
         enum: [ 'LARGE', 'MEDIUM', 'SMALL' ],
       },
-      mimeType: { type: String, maxlength: 64 },
       size: Number,
       width: Number,
       height: Number,
@@ -25,6 +25,23 @@ module.exports = app => {
     createdAt: { type: Date },
     updatedAt: { type: Date, default: Date.now },
   });
+
+  FilesSchema.virtual('targetPath').get(function() {
+    return path.join(
+      app.baseDir,
+      app.config.files.localPath,
+      this.createdAt.getFullYear().toString(),
+      this.createdAt.getMonth().toString(),
+      this.createdAt.getDay().toString(),
+      this.token
+    );
+  });
+
+  FilesSchema.methods.target = function(selector) {
+    return path.join(this.targetPath, selector ?
+      app.config.files.thumbs[selector.toLowerCase()].name :
+      this.name);
+  };
 
   return mongoose.model('Files', FilesSchema, 'files');
 };
