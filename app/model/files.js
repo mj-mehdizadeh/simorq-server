@@ -12,6 +12,7 @@ module.exports = app => {
     size: { type: Number },
     width: Number,
     height: Number,
+    duration: Number,
     thumbs: [ new Schema({
       selector: {
         type: String,
@@ -32,7 +33,7 @@ module.exports = app => {
       app.config.files.localPath,
       this.createdAt.getFullYear().toString(),
       this.createdAt.getMonth().toString(),
-      this.createdAt.getDay().toString(),
+      this.createdAt.getUTCDate().toString(),
       this.token
     );
   });
