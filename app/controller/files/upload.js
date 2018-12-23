@@ -8,6 +8,7 @@ const mkdirp = require('mkdirp');
 const uuid4 = require('uuid4');
 const ffmpeg = require('fluent-ffmpeg');
 const find = require('lodash').find;
+const mm = require('music-metadata');
 
 class UploadController extends Controller {
 
@@ -32,6 +33,8 @@ class UploadController extends Controller {
     try {
       if (model.mimeType.startsWith('video')) {
         await this.processVideo(model);
+      } else if (model.mimeType.startsWith('audio')) {
+        await this.processAudio(model);
       }
     } catch (e) {
       console.log('process thumbnails error', e);
@@ -64,6 +67,17 @@ class UploadController extends Controller {
         resolve();
       });
     });
+  }
+
+  async processAudio(model) {
+    const metadata = await mm.parseFile(model.target(), { native: true });
+    try {
+      if (metadata.common.picture) {
+        await fs.writeFile(model.target('MEDIUM'), metadata.common.picture.pop().data);
+      }
+    } finally {
+      model.duration = metadata.duration;
+    }
   }
 }
 
