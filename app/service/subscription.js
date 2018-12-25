@@ -18,12 +18,12 @@ class SubscriptionService extends Service {
       roomId: to.roomId,
       chatId,
       removed: true,
-      createdBy: from.accountId,
+      createdBy: from.createdBy,
     }, {
       roomId: from.roomId,
       chatId,
       removed: true,
-      createdBy: to.accountId,
+      createdBy: to.createdBy,
     });
   }
 

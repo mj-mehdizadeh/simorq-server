@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const random = require('lodash').random;
 
 class MessageService extends Service {
   async newMessage(from, to, params) {
@@ -30,8 +31,8 @@ class MessageService extends Service {
       const userRoom = await this.ctx.service.room.findUserRoom(from);
       if (subscribe === null) {
         const subscribes = await this.ctx.service.subscription.insertChatSubscribe(
-          { roomId: room.id, accountId: userRoom.createdBy },
-          { roomId: userRoom.id, accountId: room.createdBy }
+          { roomId: userRoom.id, createdBy: userRoom.createdBy },
+          { roomId: room.id, createdBy: room.createdBy }
         );
         subscribe = subscribes[0];
         peerSubscribe = subscribes[1];
@@ -47,9 +48,10 @@ class MessageService extends Service {
 
     // todo forwardFrom
 
-    await this.ctx.model.Message.create({
+    const message = await this.ctx.model.Message.create({
       refType: room.type === 'USER' ? 'CHAT' : 'ROOM',
       refId: room.type === 'USER' ? subscribe.chatId : room.id,
+      randomId: params.randomId ? params.randomId : random(10000000000),
       text: params.text,
       type: params.type,
       attachment,
@@ -67,6 +69,7 @@ class MessageService extends Service {
       peerSubscribe.removed = false;
       peerSubscribe.save();
     }
+    return message;
   }
 }
 
