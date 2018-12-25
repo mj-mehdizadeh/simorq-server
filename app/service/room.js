@@ -18,7 +18,7 @@ class RoomService extends Service {
     return (room == null || (roomId && room.id === roomId));
   }
 
-  findChat(createdBy) {
+  findUserRoom(createdBy) {
     return this.ctx.model.Room.findOne({ createdBy, type: 'USER' });
   }
 

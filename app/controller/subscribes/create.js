@@ -27,7 +27,10 @@ class CreateController extends Controller {
       this.throwInvalidError('room_not_found');
     }
 
-    const subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'MEMBER');
+    let subscribe = await this.ctx.service.subscription.findUserSubscription(room.id, this.accountId);
+    if (subscribe === null) {
+      subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'MEMBER');
+    }
     return subscribe.presentable();
   }
 }
