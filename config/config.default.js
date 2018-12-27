@@ -46,16 +46,6 @@ module.exports = appInfo => {
     expiresIn: '15m',
   };
 
-  config.onerror = {
-    json(err, ctx) {
-      ctx.body = {
-        name: err.name,
-        params: err.params,
-      };
-      ctx.status = err.status;
-    },
-  };
-
   config.multipart = {
     fileSize: '1000mb',
     whitelist: filename => [ path.extname(filename) || 'png' ],

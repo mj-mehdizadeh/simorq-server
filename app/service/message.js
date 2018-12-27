@@ -11,7 +11,7 @@ class MessageService extends Service {
 
     const room = await this.ctx.service.room.findById(to);
     if (room === null) {
-      this.ctx.throwError('invalid_room');
+      this.throwInvalidError('invalid_room');
     }
 
     subscribe = await this.ctx.service.subscription.findUserSubscription(to, from);
@@ -20,11 +20,11 @@ class MessageService extends Service {
       ||
       (room.type === 'CHANNEL' && subscribe.role === 'MEMBER')
     ) {
-      this.ctx.throwError('invalid_room_access');
+      this.throwInvalidError('invalid_room_access');
     } else if (
       subscribe && room.type === 'USER' && subscribe.blocked
     ) {
-      this.ctx.throwError('blocked_user');
+      this.throwInvalidError('blocked_user');
     }
 
     if (room.type === 'USER') {
