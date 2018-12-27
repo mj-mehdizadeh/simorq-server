@@ -44,5 +44,18 @@ module.exports = app => {
       this.name);
   };
 
+  FilesSchema.methods.presentable = function() {
+    return {
+      name: this.name,
+      token: this.token,
+      mimeType: this.mimeType,
+      size: this.size,
+      width: this.width,
+      height: this.height,
+      duration: this.duration,
+      thumbs: this.thumbs,
+    };
+  };
+
   return mongoose.model('Files', FilesSchema, 'files');
 };
