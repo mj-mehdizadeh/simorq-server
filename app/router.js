@@ -14,4 +14,5 @@ module.exports = app => {
   router.patch('/rooms/:id', app.oAuth2Server.authenticate(), controller.rooms.edit.run);
   router.post('/subscribes', app.oAuth2Server.authenticate(), controller.subscribes.create.run);
   router.post('/upload', app.oAuth2Server.authenticate(), controller.files.upload.run);
+  router.post('/messages', app.oAuth2Server.authenticate(), controller.messages.create.run);
 };
