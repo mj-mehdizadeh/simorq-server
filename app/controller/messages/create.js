@@ -21,7 +21,7 @@ class CreateController extends Controller {
         required: false,
       },
       reply_to: { type: 'string', required: false },
-      message: { type: 'string', required: false },
+      text: { type: 'string', required: false },
       attachment: { type: 'string', required: false },
       location: { type: 'object', required: false },
       contact: { type: 'object', required: false },
@@ -30,12 +30,12 @@ class CreateController extends Controller {
 
   async handle() {
     const roomId = this.getInput('room_id');
-    const message = this.getInput('message');
+    const text = this.getInput('text');
     const attachment = this.getInput('attachment');
     const location = this.getInput('location');
     const contact = this.getInput('contact');
 
-    if (!message && !attachment && !location && !contact) {
+    if (!text && !attachment && !location && !contact) {
       this.throwInvalidError('content_required');
     }
     return this.ctx.service.message.newMessage(this.accountId, roomId, {
@@ -43,7 +43,7 @@ class CreateController extends Controller {
       type: this.getInput('type'),
       forwardFrom: this.getInput('forward_from'),
       replyTo: this.getInput('reply_to'),
-      message,
+      text,
       attachment,
       location,
       contact,
