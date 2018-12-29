@@ -31,7 +31,7 @@ class EditController extends Controller {
 
     await this.room.save();
 
-    return this.room.presentable();
+    return this.room;
   }
 
   async setUsername() {

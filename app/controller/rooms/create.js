@@ -21,7 +21,7 @@ class CreateController extends Controller {
     // insert owner subscription
     await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'OWNER');
 
-    return room.presentable();
+    return room;
   }
 }
 

@@ -31,7 +31,7 @@ class CreateController extends Controller {
     if (subscribe === null) {
       subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'MEMBER');
     }
-    return subscribe.presentable();
+    return subscribe;
   }
 }
 
