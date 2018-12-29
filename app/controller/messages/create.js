@@ -38,7 +38,7 @@ class CreateController extends Controller {
     if (!text && !attachment && !location && !contact) {
       this.throwInvalidError('content_required');
     }
-    return this.ctx.service.message.newMessage(this.accountId, roomId, {
+    const message = await this.ctx.service.message.newMessage(this.accountId, roomId, {
       randomId: this.getInput('random_id'),
       type: this.getInput('type'),
       forwardFrom: this.getInput('forward_from'),
@@ -48,6 +48,7 @@ class CreateController extends Controller {
       location,
       contact,
     });
+    return message.presentable();
   }
 }
 

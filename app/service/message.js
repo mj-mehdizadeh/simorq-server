@@ -4,6 +4,9 @@ const Service = require('egg').Service;
 const random = require('lodash').random;
 
 class MessageService extends Service {
+  findById(id) {
+    return this.ctx.model.Message.findById(id);
+  }
   async newMessage(from, to, params, options = { publish: true }) {
     let attachment,
       subscribe,

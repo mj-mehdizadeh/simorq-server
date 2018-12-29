@@ -1,4 +1,5 @@
 'use strict';
+const pick = require('lodash').pick;
 
 module.exports = app => {
   const mongoose = app.mongoose;
@@ -46,6 +47,12 @@ module.exports = app => {
     updatedAt: { type: Date, default: Date.now },
   });
   MessageSchema.index({ refType: 1, refId: 1, randomId: 1 }, { unique: true });
+
+  MessageSchema.methods.presentable = function() {
+    const message = pick(this, [ 'id', 'randomId', 'type', 'text', 'attachment', 'contact', 'location', 'forwardFrom', 'replyTo', 'createdAt', 'updatedAt' ]);
+    message[this.refType.toLowerCase() + 'Id'] = this.refId;
+    return message;
+  };
 
   return mongoose.model('Message', MessageSchema, 'message');
 };

@@ -35,8 +35,8 @@ describe('test/app/controller/messages/create.test.js', () => {
         name: 'invalid_room_access',
       });
   });
-  it('test unauthorized group POST /messages', () => {
-    return app.httpRequest()
+  it('test unauthorized group POST /messages', async () => {
+    const message = await app.httpRequest()
       .post('/messages')
       .type('json')
       .set('Authorization', 'Bearer ' + global.access_token)
@@ -46,6 +46,8 @@ describe('test/app/controller/messages/create.test.js', () => {
         text: 'hi',
       })
       .expect(200);
+    global.message_id = message.body.id;
+    console.log('message', message.body);
   });
 
 });
