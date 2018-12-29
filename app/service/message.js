@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 const random = require('lodash').random;
 
 class MessageService extends Service {
-  async newMessage(from, to, params) {
+  async newMessage(from, to, params, options = { publish: true }) {
     let attachment,
       subscribe,
       peerSubscribe;
@@ -69,7 +69,13 @@ class MessageService extends Service {
       peerSubscribe.removed = false;
       peerSubscribe.save();
     }
+    if (options.publish) {
+      this.publish(message);
+    }
     return message;
+  }
+  publish(message) {
+    this.ctx.io[message.refType.toLowerCase()].emit(message.refId, 'update', message.presentable());
   }
 }
 

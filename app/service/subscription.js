@@ -14,7 +14,7 @@ class SubscriptionService extends Service {
 
   async insertChatSubscribe(from, to) {
     const chatId = mongoose.Types.ObjectId();
-    return this.ctx.model.Subscription.create({
+    const subscribes = await this.ctx.model.Subscription.create({
       roomId: to.roomId,
       chatId,
       removed: true,
@@ -25,14 +25,30 @@ class SubscriptionService extends Service {
       removed: true,
       createdBy: to.createdBy,
     });
+    this.join(subscribes[0]);
+    this.join(subscribes[1]);
+    return subscribes;
   }
 
-  insertSubscribe(roomId, createdBy, role) {
-    return this.ctx.model.Subscription.create({
+  async insertSubscribe(roomId, createdBy, role) {
+    const subscribe = await this.ctx.model.Subscription.create({
       roomId,
       createdBy,
       role,
     });
+    this.join(subscribe);
+  }
+
+  join(subscribe) {
+    const refType = subscribe.chatId ? 'chat' : 'room';
+    const refId = subscribe.chatId ? subscribe.chatId : subscribe.roomId;
+    this.ctx.io[refType].join(refId, subscribe.createdBy, refId);
+  }
+
+  publish(subscribe) {
+    const refType = subscribe.chatId ? 'chat' : 'room';
+    const refId = subscribe.chatId ? subscribe.chatId : subscribe.roomId;
+    this.ctx.io[refType].emit(refId, 'update', subscribe.presentable());
   }
 
   constructModel(params) {
