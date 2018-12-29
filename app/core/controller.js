@@ -25,13 +25,13 @@ class Controller extends BaseController {
     // handle code
   }
 
-  presentable(input) {
-    if (isArray(input)) {
-      map(input, item => this.presentable(item));
-    } else if (isObject(input)) {
-      return input.hasOwnProperty('presentable') ? input.presentable() : input;
+  presentable(result) {
+    if (isArray(result)) {
+      map(result, item => this.presentable(item));
+    } else if (isObject(result)) {
+      return result.hasOwnProperty('presentable') ? result.presentable() : result;
     }
-    return input;
+    return result;
   }
 
   get accountId() {

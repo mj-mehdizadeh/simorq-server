@@ -9,6 +9,10 @@ class RoomService extends Service {
     return this.ctx.model.Room.findById(id);
   }
 
+  findInIds(ids) {
+    return this.ctx.model.Room.find({ _id: { $in: ids } });
+  }
+
   findByUsername(username) {
     return this.ctx.model.Room.findOne({ username });
   }
