@@ -22,6 +22,12 @@ class RoomService extends Service {
     return this.ctx.model.Room.findOne({ createdBy, type: 'USER' });
   }
 
+  findUsername(query, skip, limit) {
+    return this.ctx.model.Room.find({
+      username: { $regex: '.*' + query + '.*' },
+    }).skip(skip).limit(limit);
+  }
+
   async insertRoom(title, info, type, createdBy) {
     return this.ctx.model.Room.create({
       username: type !== 'USER' ? await generateRandomToken() : null,
