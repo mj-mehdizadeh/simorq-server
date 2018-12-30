@@ -31,7 +31,8 @@ module.exports = app => {
       mute: this.mute,
       clearAt: this.clearAt,
       createdAt: this.createdAt,
-      lastSeen: this.lastSeen,
+      lastRead: this.lastRead,
+      lastPeerRead: this.lastPeerRead,
     };
   };
 

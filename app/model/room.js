@@ -23,7 +23,7 @@ module.exports = app => {
     updatedAt: { type: Date, default: Date.now },
   });
 
-  RoomSchema.methods.presentable = function() {
+  RoomSchema.methods.presentable = function(subscribe = null) {
     return {
       id: this.id,
       username: this.username,
@@ -33,6 +33,7 @@ module.exports = app => {
       availability: this.availability,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      subscribe: subscribe ? subscribe.presentable() : null,
     };
   };
 

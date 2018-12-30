@@ -2,6 +2,7 @@
 
 const Controller = require('../../core/controller');
 const map = require('lodash').map;
+const find = require('lodash').find;
 
 class GetController extends Controller {
   get rules() {
@@ -12,10 +13,10 @@ class GetController extends Controller {
   }
 
   presentable(results) {
-    return {
-      subscribes: map(results.subscribes, sub => sub.presentable()),
-      rooms: map(results.rooms, room => room.presentable()),
-    };
+    return map(results.rooms, room => room.presentable(find(
+      results.subscribes,
+      sub => sub.roomId.toString() === room.id.toString()
+    )));
   }
 
   async handle() {
