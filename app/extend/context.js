@@ -9,5 +9,7 @@ module.exports = {
       params,
     });
   },
-  io,
+  io(name) {
+    return io(this.app, name);
+  },
 };

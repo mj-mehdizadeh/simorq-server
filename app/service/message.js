@@ -78,7 +78,7 @@ class MessageService extends Service {
     return message;
   }
   publish(message) {
-    this.ctx.io[message.refType.toLowerCase()].emit(message.refId, 'update', message.presentable());
+    this.ctx.io(message.refType.toLowerCase()).emit(message.refId, 'update', message.presentable());
   }
 }
 

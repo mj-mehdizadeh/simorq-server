@@ -49,13 +49,13 @@ class SubscriptionService extends Service {
   join(subscribe) {
     const refType = subscribe.chatId ? 'chat' : 'room';
     const refId = subscribe.chatId ? subscribe.chatId : subscribe.roomId;
-    this.ctx.io[refType].join(refId, subscribe.createdBy, refId);
+    this.ctx.io(refType).join(refId, subscribe.createdBy, refId);
   }
 
   publish(subscribe) {
     const refType = subscribe.chatId ? 'chat' : 'room';
     const refId = subscribe.chatId ? subscribe.chatId : subscribe.roomId;
-    this.ctx.io[refType].emit(refId, 'update', subscribe.presentable());
+    this.ctx.io(refType).emit(refId, 'update', subscribe.presentable());
   }
 
   constructModel(params) {
