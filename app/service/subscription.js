@@ -44,12 +44,13 @@ class SubscriptionService extends Service {
       role,
     });
     this.join(subscribe);
+    return subscribe;
   }
 
   join(subscribe) {
     const refType = subscribe.chatId ? 'chat' : 'room';
     const refId = subscribe.chatId ? subscribe.chatId : subscribe.roomId;
-    this.ctx.io(refType).join(refId, subscribe.createdBy, refId);
+    this.ctx.io(refType).joinAccount(subscribe.createdBy, refId);
   }
 
   publish(subscribe) {
