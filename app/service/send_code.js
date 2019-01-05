@@ -12,7 +12,7 @@ class SendCodeService extends Service {
   async insertCode(phoneNumber) {
     let model = await this.find(phoneNumber);
     if (model == null) {
-      const rand = this.app.config.env === 'unittest' ? 12345 : random(10000, 99999);
+      const rand = [ 'unittest', 'local' ].includes(this.app.config.env) ? 12345 : random(10000, 99999);
       model = await this.ctx.model.SendCode.create({ phoneNumber, code: rand });
     }
     return model;
