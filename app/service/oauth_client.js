@@ -10,7 +10,7 @@ class OAuthClientService extends Service {
 
   async findClient(clientId, clientSecret) {
     const client = await this.findByClientId(clientId);
-    if (client && client.clientSecret != null && client.clientSecret !== clientSecret) {
+    if (!client || (client.clientSecret && client.clientSecret !== clientSecret)) {
       return null;
     }
     return client;
