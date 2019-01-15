@@ -11,6 +11,10 @@ module.exports = app => {
       type: String,
       enum: [ 'MEMBER', 'ADMIN', 'OWNER' ],
     },
+    roomType: {
+      type: String,
+      enum: [ 'USER', 'GROUP', 'CHANNEL' ],
+    },
     pinned: { type: Date },
     mute: Boolean,
     removed: Boolean,

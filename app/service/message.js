@@ -52,8 +52,7 @@ class MessageService extends Service {
     // todo forwardFrom
 
     const message = await this.ctx.model.Message.create({
-      refType: room.type === 'USER' ? 'CHAT' : 'ROOM',
-      refId: room.type === 'USER' ? subscribe.chatId : room.id,
+      chatId: subscribe.chatId,
       randomId: params.randomId ? params.randomId : random(10000000000),
       text: params.text,
       type: params.type,
@@ -78,7 +77,7 @@ class MessageService extends Service {
     return message;
   }
   publish(message) {
-    this.ctx.io(message.refType.toLowerCase()).emit(message.refId, 'update', message.presentable());
+    this.ctx.io().emit(message.chatId, 'update', message.presentable());
   }
 }
 

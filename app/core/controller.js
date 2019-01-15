@@ -16,6 +16,7 @@ class Controller extends BaseController {
       this.ctx.validate(this.rules, this.ctx.request.body);
       this.ctx.body = this.presentable(await this.handle());
     } catch (e) {
+      console.error('e', e);
       this.ctx.type = 'json';
       this.ctx.status = e.status || 400;
       this.ctx.body = {

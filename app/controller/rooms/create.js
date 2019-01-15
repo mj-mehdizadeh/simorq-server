@@ -19,7 +19,7 @@ class CreateController extends Controller {
       this.accountId
     );
     // insert owner subscription
-    const subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'OWNER');
+    const subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'OWNER', room.type);
 
     return room.presentable(subscribe);
   }

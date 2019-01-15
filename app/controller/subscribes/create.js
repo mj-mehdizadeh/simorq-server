@@ -29,7 +29,7 @@ class CreateController extends Controller {
 
     let subscribe = await this.ctx.service.subscription.findUserSubscription(room.id, this.accountId);
     if (subscribe === null) {
-      subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'MEMBER');
+      subscribe = await this.ctx.service.subscription.insertSubscribe(room.id, this.accountId, 'MEMBER', room.type);
     }
     return subscribe;
   }

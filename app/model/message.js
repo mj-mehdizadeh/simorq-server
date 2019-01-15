@@ -7,12 +7,7 @@ module.exports = app => {
   const ObjectId = Schema.Types.ObjectId;
 
   const MessageSchema = new Schema({
-    refType: {
-      type: String,
-      enum: [ 'CHAT', 'ROOM' ],
-      required: true,
-    },
-    refId: { type: ObjectId, required: true },
+    chatId: { type: ObjectId, required: true },
     randomId: Number,
     type: {
       type: String,
@@ -46,12 +41,10 @@ module.exports = app => {
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   });
-  MessageSchema.index({ refType: 1, refId: 1, randomId: 1 }, { unique: true });
+  MessageSchema.index({ chatId: 1, randomId: 1 }, { unique: true });
 
   MessageSchema.methods.presentable = function() {
-    const message = pick(this, [ 'id', 'randomId', 'type', 'text', 'attachment', 'contact', 'location', 'forwardFrom', 'replyTo', 'createdAt', 'updatedAt' ]);
-    message[this.refType.toLowerCase() + 'Id'] = this.refId;
-    return message;
+    return pick(this, [ 'id', 'chatId', 'randomId', 'type', 'text', 'attachment', 'contact', 'location', 'forwardFrom', 'replyTo', 'createdAt', 'updatedAt' ]);
   };
 
   return mongoose.model('Message', MessageSchema, 'message');
