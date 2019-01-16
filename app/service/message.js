@@ -7,6 +7,18 @@ class MessageService extends Service {
   findById(id) {
     return this.ctx.model.Message.findById(id);
   }
+
+  findLastIds(ids) {
+    return this.ctx.model.Message.aggregate([
+      { $match: { chatId: { $in: ids } } },
+      { $group: { _id: '$chatId', id: { $max: '$_id' } } },
+    ]);
+  }
+
+  findIds(ids) {
+    return this.ctx.model.Message.find({ _id: { $in: ids } });
+  }
+
   async newMessage(from, to, params, options = { publish: true }) {
     let attachment,
       subscribe,

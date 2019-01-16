@@ -13,10 +13,13 @@ class GetController extends Controller {
   }
 
   presentable(results) {
-    return map(results.rooms, room => room.presentable(find(
-      results.subscribes,
-      sub => sub.roomId.toString() === room.id.toString()
-    )));
+    return {
+      rooms: map(results.rooms, room => room.presentable(find(
+        results.subscribes,
+        sub => sub.roomId.toString() === room.id.toString()
+      ))),
+      messages: map(results.messages, message => message.presentable()),
+    };
   }
 
   async handle() {
@@ -24,9 +27,12 @@ class GetController extends Controller {
     const limit = this.getInput('limit', 20);
     const subscribes = await this.ctx.service.subscription.getSubscribes(this.accountId, skip, limit);
     const rooms = await this.ctx.service.room.findInIds(map(subscribes, 'roomId'));
+    const lastIds = await this.ctx.service.message.findLastIds(map(subscribes, 'chatId'));
+    const messages = await this.ctx.service.message.findIds(map(lastIds, 'id'));
     return {
       subscribes,
       rooms,
+      messages,
     };
   }
 }
