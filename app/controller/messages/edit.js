@@ -18,7 +18,7 @@ class EditController extends Controller {
       this.throwInvalidError('invalid_message');
     }
 
-    let isOwner = message.createdBy.toString() === this.accountId.toString();
+    let isOwner = message.createdBy.toString() === this.accountId;
     if (!isOwner && message.refType === 'ROOM') {
       const subscribe = await this.ctx.service.subscription.findUserSubscription(message.refId, this.accountId);
       isOwner = subscribe.role === 'ADMIN' || subscribe.role === 'OWNER';

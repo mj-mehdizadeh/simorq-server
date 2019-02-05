@@ -60,10 +60,8 @@ class EditController extends Controller {
 
   async findRoom() {
     const roomId = this.ctx.params.id;
-    const accountId = this.ctx.locals.oauth.token.accountId;
-
     this.room = await this.ctx.service.room.findById(roomId);
-    if (this.room == null || this.room.createdBy.toString() !== accountId.toString()) {
+    if (this.room == null || this.room.createdBy.toString() !== this.accountId) {
       this.throwInvalidError('invalid_room');
     }
   }
