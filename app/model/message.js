@@ -44,7 +44,7 @@ module.exports = app => {
   MessageSchema.index({ chatId: 1, randomId: 1 }, { unique: true });
 
   MessageSchema.methods.presentable = function() {
-    return pick(this, [ 'id', 'chatId', 'randomId', 'type', 'text', 'attachment', 'contact', 'location', 'forwardFrom', 'replyTo', 'createdAt', 'updatedAt' ]);
+    return pick(this, [ 'id', 'chatId', 'randomId', 'type', 'text', 'attachment', 'contact', 'location', 'forwardFrom', 'replyTo', 'createdBy', 'createdAt', 'updatedAt' ]);
   };
 
   return mongoose.model('Message', MessageSchema, 'message');
