@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const mongoose = require('mongoose');
 const random = require('lodash').random;
 
 class MessageService extends Service {
@@ -17,6 +18,17 @@ class MessageService extends Service {
 
   findIds(ids) {
     return this.ctx.model.Message.find({ _id: { $in: ids } });
+  }
+
+  getHistory(chatId, from = null, skip = 0, limit = 40, sort = -1) {
+    const query = { chatId };
+    if (from) {
+      query._id = sort === 1 ? { $gt: mongoose.Types.ObjectId(from) } : { $lt: mongoose.Types.ObjectId(from) };
+    }
+    return this.ctx.model.Message.find(query)
+      .skip(skip)
+      .limit(limit)
+      .sort({ _id: sort });
   }
 
   async newMessage(from, to, params, options = { publish: true }) {
@@ -88,6 +100,7 @@ class MessageService extends Service {
     }
     return message;
   }
+
   publish(message) {
     this.ctx.io().emit(message.chatId, 'update', message.presentable());
   }

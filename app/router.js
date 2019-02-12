@@ -19,4 +19,5 @@ module.exports = app => {
   router.get('/download/:token/:size?', controller.files.download.run);
   router.post('/messages', app.oAuth2Server.authenticate(), controller.messages.create.run);
   router.patch('/messages', app.oAuth2Server.authenticate(), controller.messages.edit.run);
+  router.get('/messages/:roomId', app.oAuth2Server.authenticate(), controller.messages.get.run);
 };
