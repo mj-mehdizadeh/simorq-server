@@ -32,7 +32,7 @@ class Controller extends BaseController {
     this.ctx.query.limit = this.ctx.query.limit ? parseInt(this.ctx.query.limit) : null;
     this.ctx.validate({
       skip: { type: 'number', min: 0, convertType: true, required: false },
-      limit: { type: 'number', min: 0, convertType: true, required: false },
+      limit: { type: 'number', min: 0, max: 40, convertType: true, required: false },
     }, this.ctx.query);
     this.ctx.validate(this.rules, this.ctx.request.body);
   }
