@@ -19,6 +19,9 @@ class GetController extends Controller {
   async handle() {
     const { skip, limit } = this.ctx.query;
     const subscribes = await this.ctx.service.subscription.getSubscribes(this.accountId, skip || 0, limit || 40);
+    if (!subscribes.length) {
+      this.throwInvalidError('end_of_subscribes');
+    }
     const rooms = await this.ctx.service.room.findInIds(map(subscribes, 'roomId'));
     const subscribeProps = await this.ctx.service.message.findSubscribeLast(
       map(
