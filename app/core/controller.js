@@ -4,6 +4,7 @@ const BaseController = require('egg').Controller;
 const map = require('lodash').map;
 const isArray = require('lodash').isArray;
 const isObject = require('lodash').isObject;
+const isFunction = require('lodash').isFunction;
 
 class Controller extends BaseController {
 
@@ -13,7 +14,7 @@ class Controller extends BaseController {
 
   async run() {
     try {
-      this.ctx.validate(this.rules, this.ctx.request.body);
+      this.validateRequest();
       this.ctx.body = this.presentable(await this.handle());
     } catch (e) {
       console.error('e', e);
@@ -26,6 +27,16 @@ class Controller extends BaseController {
     }
   }
 
+  validateRequest() {
+    this.ctx.query.skip = this.ctx.query.skip ? parseInt(this.ctx.query.skip) : null;
+    this.ctx.query.limit = this.ctx.query.limit ? parseInt(this.ctx.query.limit) : null;
+    this.ctx.validate({
+      skip: { type: 'number', min: 0, convertType: true, required: false },
+      limit: { type: 'number', min: 0, convertType: true, required: false },
+    }, this.ctx.query);
+    this.ctx.validate(this.rules, this.ctx.request.body);
+  }
+
   async handle() {
     // handle code
   }
@@ -33,8 +44,8 @@ class Controller extends BaseController {
   presentable(result) {
     if (isArray(result)) {
       map(result, item => this.presentable(item));
-    } else if (isObject(result)) {
-      return result.hasOwnProperty('presentable') ? result.presentable() : result;
+    } else if (isObject(result) && isFunction(result.presentable)) {
+      return result.presentable();
     }
     return result;
   }
