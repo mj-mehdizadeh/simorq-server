@@ -41,5 +41,18 @@ module.exports = app => {
     return this.save();
   };
 
+  AccountSchema.methods.presentable = function() {
+    return {
+      id: this.id,
+      roomId: this.roomId,
+      phoneNumber: this.phoneNumber,
+      email: this.email,
+      isDeleted: this.isDeleted,
+      hasPassword: !!this.passwordHash,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  };
+
   return mongoose.model('Account', AccountSchema, 'account');
 };
