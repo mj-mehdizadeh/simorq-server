@@ -22,8 +22,8 @@ module.exports = app => {
     clearAt: { type: Date },
     createdBy: { type: Schema.Types.ObjectId, index: true, required: true },
     createdAt: { type: Date, default: Date.now },
-    lastRead: { type: Date, default: Date.now },
-    lastPeerRead: { type: Date, default: Date.now },
+    readInboxMaxId: { type: Schema.Types.ObjectId, default: null },
+    readHistoryMaxId: { type: Schema.Types.ObjectId, default: null },
   });
 
   SubscriptionSchema.methods.presentable = function() {
@@ -35,8 +35,8 @@ module.exports = app => {
       mute: this.mute,
       clearAt: this.clearAt,
       createdAt: this.createdAt,
-      lastRead: this.lastRead,
-      lastPeerRead: this.lastPeerRead,
+      readInboxMaxId: this.readInboxMaxId,
+      readHistoryMaxId: this.readHistoryMaxId,
     };
   };
 

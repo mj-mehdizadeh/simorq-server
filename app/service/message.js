@@ -3,16 +3,24 @@
 const Service = require('egg').Service;
 const mongoose = require('mongoose');
 const random = require('lodash').random;
+const map = require('lodash').map;
 
 class MessageService extends Service {
   findById(id) {
     return this.ctx.model.Message.findById(id);
   }
 
-  findLastIds(ids) {
+  findSubscribeLast(items) {
+    const orQuery = map(items, item => {
+      const query = { chatId: item.chatId };
+      if (item.readInboxMaxId) {
+        query._id = { $gt: item.readInboxMaxId };
+      }
+      return query;
+    });
     return this.ctx.model.Message.aggregate([
-      { $match: { chatId: { $in: ids } } },
-      { $group: { _id: '$chatId', id: { $max: '$_id' } } },
+      { $match: { $or: orQuery } },
+      { $group: { _id: '$chatId', lastMessageId: { $max: '$_id' }, unreadCount: { $sum: 1 } } },
     ]);
   }
 
@@ -102,7 +110,8 @@ class MessageService extends Service {
   }
 
   publish(message) {
-    this.ctx.io().emit(message.chatId, 'update', message.presentable());
+    this.ctx.io()
+      .emit(message.chatId, 'update', message.presentable());
   }
 }
 
