@@ -18,18 +18,37 @@ class GetController extends Controller {
 
   async handle() {
     const { skip, limit } = this.ctx.query;
+
+    // find user subscribes
     const subscribes = await this.ctx.service.subscription.getSubscribes(this.accountId, skip || 0, limit || 40);
     if (!subscribes.length) {
       this.throwInvalidError('end_of_subscribes');
     }
-    const rooms = await this.ctx.service.room.findInIds(map(subscribes, 'roomId'));
-    const subscribeProps = await this.ctx.service.message.findSubscribeLast(
-      map(
-        subscribes,
-        subscribe => pick(subscribe, [ 'chatId', 'readInboxMaxId' ])
-      )
+
+    // find subscribe rooms
+    const subscribesRoomsId = map(subscribes, 'roomId');
+    const rooms = await this.ctx.service.room.findInIds(subscribesRoomsId);
+
+    // find subscribes props
+    const subscribesAggregate = map(
+      subscribes,
+      subscribe => pick(
+        subscribe, [
+          'chatId',
+          'readInboxMaxId',
+        ])
     );
-    const messages = await this.ctx.service.message.findIds(map(subscribeProps, 'lastMessageId'));
+    const subscribeProps = await this.ctx.service.message.findSubscribeLast(subscribesAggregate);
+
+    // append subscribe
+    subscribes.forEach(sub => {
+      sub.appendProps(find(subscribeProps, { _id: sub.chatId }));
+    });
+
+    // subscribe last messages
+    const lastMessageIds = map(subscribes, 'lastMessageId');
+    const messages = await this.ctx.service.message.findIds(lastMessageIds);
+
     return {
       subscribes,
       rooms,

@@ -26,6 +26,10 @@ module.exports = app => {
     readHistoryMaxId: { type: Schema.Types.ObjectId, default: null },
   });
 
+  SubscriptionSchema.methods.appendProps = function(props) {
+    this.unreadCount = props ? props.unreadCount : 0;
+    this.lastMessageId = props ? props.lastMessageId : this.readInboxMaxId;
+  };
   SubscriptionSchema.methods.presentable = function() {
     return {
       roomId: this.roomId,
@@ -37,6 +41,8 @@ module.exports = app => {
       createdAt: this.createdAt,
       readInboxMaxId: this.readInboxMaxId,
       readHistoryMaxId: this.readHistoryMaxId,
+      unreadCount: this.unreadCount,
+      lastMessageId: this.lastMessageId,
     };
   };
 
