@@ -38,7 +38,7 @@ class GetController extends Controller {
           'readInboxMaxId',
         ])
     );
-    const subscribeProps = await this.ctx.service.message.findSubscribeLast(subscribesAggregate);
+    const subscribeProps = await this.ctx.service.message.findSubscribeLast(subscribesAggregate, this.accountId);
 
     // append subscribe
     subscribes.forEach(sub => {

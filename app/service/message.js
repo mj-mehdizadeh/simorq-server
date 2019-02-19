@@ -10,9 +10,9 @@ class MessageService extends Service {
     return this.ctx.model.Message.findById(id);
   }
 
-  findSubscribeLast(items) {
+  findSubscribeLast(items, createdBy) {
     const orQuery = map(items, item => {
-      const query = { chatId: item.chatId };
+      const query = { chatId: item.chatId, createdBy: { $ne: createdBy } };
       if (item.readInboxMaxId) {
         query._id = { $gt: item.readInboxMaxId };
       }
@@ -51,7 +51,7 @@ class MessageService extends Service {
 
     subscribe = await this.ctx.service.subscription.findUserSubscription(to, from);
     if (
-      (subscribe === null && [ 'GROUP', 'CHANNEL' ].includes(room.type))
+      (subscribe === null && ['GROUP', 'CHANNEL'].includes(room.type))
       ||
       (room.type === 'CHANNEL' && subscribe.role === 'MEMBER')
     ) {
