@@ -43,7 +43,7 @@ class Controller extends BaseController {
 
   presentable(result) {
     if (isArray(result)) {
-      map(result, item => this.presentable(item));
+      return map(result, item => this.presentable(item));
     } else if (isObject(result) && isFunction(result.presentable)) {
       return result.presentable();
     }
