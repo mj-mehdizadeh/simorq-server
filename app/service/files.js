@@ -8,6 +8,10 @@ class FilesService extends Service {
     return this.ctx.model.Files.findOne({ token });
   }
 
+  findByTokens(tokens) {
+    return this.ctx.model.Files.find({ token: { $in: tokens } });
+  }
+
   insertFile(params) {
     return this.ctx.model.Files.create(params);
   }
