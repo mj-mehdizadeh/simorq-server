@@ -12,6 +12,12 @@ class AccountService extends Service {
     return this.ctx.model.Account.findOne({ phoneNumber, isDeleted: false });
   }
 
+  findInPhoneNumbers(phoneList) {
+    return this.ctx.model.Account
+      .find({ phoneNumber: phoneList })
+      .select({ roomId: 1, phoneNumber: 1 });
+  }
+
   insertAccount(phoneNumber) {
     return this.ctx.model.Account.create({ phoneNumber });
   }

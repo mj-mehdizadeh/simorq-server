@@ -11,5 +11,7 @@ module.exports = app => {
     createdBy: { type: Schema.Types.ObjectId, index: true, required: true },
   });
 
+  ContactSchema.index({ createdBy: 1, phoneNumber: 1 }, { unique: true });
+
   return mongoose.model('Contact', ContactSchema, 'contact');
 };
