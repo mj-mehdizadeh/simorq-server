@@ -51,7 +51,7 @@ class Controller extends BaseController {
   }
 
   get accountId() {
-    return this.ctx.locals.oauth.token.accountId;
+    return this.ctx.locals.oauth.token.accountId.toString();
   }
 
   getInput(key, def) {
