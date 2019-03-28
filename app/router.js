@@ -22,7 +22,7 @@ module.exports = app => {
   router.get('/subscribes', app.oAuth2Server.authenticate(), controller.subscribes.get.run);
 
   router.post('/upload', app.oAuth2Server.authenticate(), controller.files.upload.run);
-  router.get('/download/:token/:size?', controller.files.download.run);
+  router.get('/download/:token/:name', controller.files.download.run);
 
   router.post('/messages', app.oAuth2Server.authenticate(), controller.messages.create.run);
   router.patch('/messages', app.oAuth2Server.authenticate(), controller.messages.edit.run);
