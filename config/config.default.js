@@ -52,6 +52,7 @@ module.exports = appInfo => {
     whitelist: filename => [ path.extname(filename) || 'png' ],
   };
   config.files = {
+    baseUri: 'http://192.168.1.52/download',
     videoFormats: [ '.webm', '.mkv', '.flv', '.vob', '.ogv', '.drc', '.gif', '.gifv', '.mng', '.avi', '.MTS', '.mov', '.wmv', '.yuv', '.rm', '.rmvb', '.asf', '.amv', '.mp4', '.mpg', '.mpg', '.m4v', '.svi', '.3gp', '.3g2', '.mxf', '.roq', '.nsv', '.flv' ],
     imageFormats: [ '.jpg', '.png', '.gif', '.webp', '.tif', '.bmp', '.jxr', '.psd' ],
     localPath: 'uploads',
