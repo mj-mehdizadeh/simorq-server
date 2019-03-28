@@ -1,5 +1,4 @@
 'use strict';
-const pick = require('lodash').pick;
 
 module.exports = app => {
   const mongoose = app.mongoose;
@@ -14,13 +13,7 @@ module.exports = app => {
       enum: [ 'PHOTO', 'VIDEO', 'VOICE', 'MUSIC', 'FILE', 'GIF', 'CONTACT', 'LOCATION', 'LINK' ],
     },
     text: { type: String, maxLength: 4096 },
-    attachment: new Schema({
-      id: { type: ObjectId },
-      mimType: String,
-      size: Number,
-      width: Number,
-      height: Number,
-    }, { _id: false }),
+    attachment: app.mongoose.model('Files').schema,
     contact: new Schema({
       roomId: ObjectId,
       title: String,
@@ -44,7 +37,21 @@ module.exports = app => {
   MessageSchema.index({ chatId: 1, randomId: 1 }, { unique: true });
 
   MessageSchema.methods.presentable = function() {
-    return pick(this, [ 'id', 'chatId', 'randomId', 'type', 'text', 'attachment', 'contact', 'location', 'forwardFrom', 'replyTo', 'createdBy', 'createdAt', 'updatedAt' ]);
+    return {
+      id: this.id,
+      chatId: this.chatId,
+      randomId: this.randomId,
+      type: this.type,
+      text: this.text,
+      attachment: this.attachment ? this.attachment.presentable() : null,
+      contact: this.contact,
+      location: this.location,
+      forwardFrom: this.forwardFrom,
+      replyTo: this.replyTo,
+      createdBy: this.createdBy,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   };
 
   return mongoose.model('Message', MessageSchema, 'message');

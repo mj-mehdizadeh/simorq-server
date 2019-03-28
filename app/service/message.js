@@ -51,7 +51,7 @@ class MessageService extends Service {
 
     subscribe = await this.ctx.service.subscription.findUserSubscription(to, from);
     if (
-      (subscribe === null && ['GROUP', 'CHANNEL'].includes(room.type))
+      (subscribe === null && [ 'GROUP', 'CHANNEL' ].includes(room.type))
       ||
       (room.type === 'CHANNEL' && subscribe.role === 'MEMBER')
     ) {
@@ -78,7 +78,6 @@ class MessageService extends Service {
 
     if (params.attachment) {
       attachment = await this.ctx.service.files.findByToken(params.attachment);
-      attachment = attachment !== null ? attachment.presentable() : null;
     }
 
     // todo forwardFrom
