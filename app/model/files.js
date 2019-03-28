@@ -1,5 +1,7 @@
 'use strict';
 const path = require('path');
+const keyBy = require('lodash').keyBy;
+const map = require('lodash').map;
 
 module.exports = app => {
   const mongoose = app.mongoose;
@@ -39,21 +41,33 @@ module.exports = app => {
   });
 
   FilesSchema.methods.target = function(selector) {
-    return path.join(this.targetPath, selector ?
-      app.config.files.thumbs[selector.toLowerCase()].name :
-      this.name);
+    return path.join(
+      this.targetPath,
+      selector ? app.config.files.thumbs[selector.toLowerCase()].name :
+        this.name
+    );
   };
 
   FilesSchema.methods.presentable = function() {
     return {
       name: this.name,
+      uri: `${app.config.files.baseUri}/${this.token}/${this.name}`,
       token: this.token,
       mimeType: this.mimeType,
       size: this.size,
       width: this.width,
       height: this.height,
       duration: this.duration,
-      thumbs: this.thumbs,
+      thumbs: keyBy(map(
+        this.thumbs,
+        thumb => ({
+          selector: thumb.selector.toLowerCase(),
+          size: thumb.size,
+          width: thumb.width,
+          height: thumb.height,
+          uri: `${app.config.files.baseUri}/${this.token}/${app.config.files.thumbs[thumb.selector.toLowerCase()].name}`,
+        })
+      ), thumb => thumb.selector),
     };
   };
 
