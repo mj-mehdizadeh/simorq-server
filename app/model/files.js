@@ -61,13 +61,13 @@ module.exports = app => {
       thumbs: keyBy(map(
         this.thumbs,
         thumb => ({
-          selector: thumb.selector.toLowerCase(),
+          selector: thumb.selector,
           size: thumb.size,
           width: thumb.width,
           height: thumb.height,
           uri: `${app.config.files.baseUri}/${this.token}/${app.config.files.thumbs[thumb.selector.toLowerCase()].name}`,
         })
-      ), thumb => thumb.selector),
+      ), thumb => thumb.selector.toLowerCase()),
     };
   };
 
