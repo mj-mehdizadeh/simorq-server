@@ -2,7 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const mapValues = require('lodash').mapValues;
+const map = require('lodash').map;
+const values = require('lodash').values;
 const Controller = require('../../core/controller');
 
 class DownloadController extends Controller {
@@ -23,8 +24,7 @@ class DownloadController extends Controller {
     if (!fs.existsSync(target)) {
       this.throwInvalidError('file_not_exist');
     }
-    if (mapValues(this.app.config.files.thumbs,
-      thumb => thumb.name).includes(this.ctx.params.name)) {
+    if (map(values(this.app.config.files.thumbs), thumb => thumb.name).includes(this.ctx.params.name)) {
       this.ctx.set('Content-Type', 'image/png');
     } else {
       this.ctx.set('Content-Type', file.mimeType);
