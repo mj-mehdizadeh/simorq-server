@@ -22,6 +22,10 @@ class AccountService extends Service {
     return this.ctx.model.Account.create({ phoneNumber });
   }
 
+  editAccount(id, params) {
+    return this.ctx.model.Account.updateOne({ _id: id }, params);
+  }
+
   async canRegister(phoneNumber) {
     const account = await this.findByPhoneNumber(phoneNumber);
     return account === null;

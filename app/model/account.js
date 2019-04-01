@@ -11,6 +11,7 @@ module.exports = app => {
     email: { type: String, maxlength: 256, trim: true, default: null },
     passwordHash: { type: String, default: null },
     loginHash: { type: String, default: null },
+    contactsHash: { type: String, default: null },
     isDeleted: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -49,6 +50,7 @@ module.exports = app => {
       email: this.email,
       isDeleted: this.isDeleted,
       hasPassword: !!this.passwordHash,
+      contactsHash: this.contactsHash,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

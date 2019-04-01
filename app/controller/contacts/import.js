@@ -3,13 +3,24 @@
 const Controller = require('../../core/controller');
 const map = require('lodash').map;
 const find = require('lodash').find;
+const join = require('lodash').join;
+const sortedUniq = require('lodash').sortedUniq;
+const crypto = require('crypto');
 
 class ImportController extends Controller {
 
   async handle() {
     const contacts = this.getInput('contacts');
-    const users = await this.ctx.service.account.findInPhoneNumbers(map(contacts, 'phone_number'));
-    return this.ctx.service.contact.insertContacts(
+    const phoneNumbers = sortedUniq(map(contacts, 'phone_number').sort());
+
+    const contactsHash = crypto
+      .createHash('md5')
+      .update(join(phoneNumbers))
+      .digest('hex');
+    await this.ctx.service.account.editAccount(this.accountId, { contactsHash });
+
+    const users = await this.ctx.service.account.findInPhoneNumbers(phoneNumbers);
+    await this.ctx.service.contacts.insertContacts(
       map(
         contacts,
         contact => ({
@@ -19,7 +30,7 @@ class ImportController extends Controller {
           createdBy: this.accountId,
         })
       )
-    );
+    ).catch(() => null);
   }
 }
 

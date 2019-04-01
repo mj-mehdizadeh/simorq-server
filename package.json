@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "bluebird": "^3.5.3",
+    "crypto": "^1.0.1",
     "egg": "^2.20.2",
     "egg-jwt": "^3.1.4",
     "egg-mongoose": "^3.1.0",

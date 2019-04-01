@@ -11,7 +11,7 @@ class ContactsService extends Service {
   }
 
   insertContacts(contacts) {
-    return this.ctx.model.Contact.insertMany(contacts);
+    return this.ctx.model.Contact.insertMany(contacts, { ordered: false });
   }
 
   updateRoomId(phoneNumber, roomId) {

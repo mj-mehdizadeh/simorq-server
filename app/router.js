@@ -28,6 +28,8 @@ module.exports = app => {
   router.patch('/messages', app.oAuth2Server.authenticate(), controller.messages.edit.run);
   router.get('/messages/:roomId', app.oAuth2Server.authenticate(), controller.messages.get.run);
 
+  router.post('/contacts', app.oAuth2Server.authenticate(), controller.contacts.import.run);
+
   router.get('/client/me', app.oAuth2Server.authenticate(), controller.client.me.run);
   router.get('/client/wallpaper', app.oAuth2Server.authenticate(), controller.client.wallpaper.run);
 };
