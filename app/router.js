@@ -29,6 +29,7 @@ module.exports = app => {
   router.get('/messages/:roomId', app.oAuth2Server.authenticate(), controller.messages.get.run);
 
   router.post('/contacts', app.oAuth2Server.authenticate(), controller.contacts.import.run);
+  router.post('/contacts/check', app.oAuth2Server.authenticate(), controller.contacts.checkHash.run);
 
   router.get('/client/me', app.oAuth2Server.authenticate(), controller.client.me.run);
   router.get('/client/wallpaper', app.oAuth2Server.authenticate(), controller.client.wallpaper.run);

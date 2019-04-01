@@ -4,8 +4,8 @@ const Service = require('egg').Service;
 
 class AccountService extends Service {
 
-  findById(id) {
-    return this.ctx.model.Account.findById(id);
+  findById(id, select = null) {
+    return this.ctx.model.Account.findById(id).select(select);
   }
 
   findByPhoneNumber(phoneNumber) {
