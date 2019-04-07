@@ -39,17 +39,17 @@ class MessageService extends Service {
       .sort({ _id: sort });
   }
 
-  async newMessage(from, to, params, options = { publish: true }) {
+  async newMessage(from, roomId, params, options = { publish: true }) {
     let attachment,
       subscribe,
       peerSubscribe;
 
-    const room = await this.ctx.service.room.findById(to);
+    const room = await this.ctx.service.room.findById(roomId);
     if (room === null) {
       this.ctx.throwError('invalid_room');
     }
 
-    subscribe = await this.ctx.service.subscription.findUserSubscription(to, from);
+    subscribe = await this.ctx.service.subscription.findUserSubscription(roomId, from.id);
     if (
       (subscribe === null && [ 'GROUP', 'CHANNEL' ].includes(room.type))
       ||
@@ -63,16 +63,15 @@ class MessageService extends Service {
     }
 
     if (room.type === 'USER') {
-      const userRoom = await this.ctx.service.room.findUserRoom(from);
       if (subscribe === null) {
         const subscribes = await this.ctx.service.subscription.insertChatSubscribe(
-          { roomId: userRoom.id, createdBy: userRoom.createdBy },
+          { roomId: from.roomId, createdBy: from.id },
           { roomId: room.id, createdBy: room.createdBy }
         );
         subscribe = subscribes[0];
         peerSubscribe = subscribes[1];
       } else {
-        peerSubscribe = await this.ctx.service.subscription.findUserSubscription(userRoom.id, room.createdBy);
+        peerSubscribe = await this.ctx.service.subscription.findUserSubscription(from.roomId, room.createdBy);
       }
     }
 

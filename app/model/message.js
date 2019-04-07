@@ -30,6 +30,7 @@ module.exports = app => {
     }, { _id: false }),
     replyTo: ObjectId,
     deletedBy: [ ObjectId ],
+    roomId: { type: ObjectId, required: true },
     createdBy: { type: ObjectId, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -48,7 +49,7 @@ module.exports = app => {
       location: this.location,
       forwardFrom: this.forwardFrom,
       replyTo: this.replyTo,
-      createdBy: this.createdBy,
+      roomId: this.roomId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

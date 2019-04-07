@@ -53,6 +53,9 @@ class Controller extends BaseController {
   get accountId() {
     return this.ctx.locals.oauth.token.accountId.toString();
   }
+  get roomId() {
+    return this.ctx.locals.oauth.token.roomId.toString();
+  }
 
   getInput(key, def) {
     return this.ctx.request.body[key] || def;
