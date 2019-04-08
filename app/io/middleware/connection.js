@@ -2,8 +2,8 @@
 
 module.exports = () => {
   return async (ctx, next) => {
-    const token = ctx.socket.handshake.query.token;
-    const model = await ctx.app.oAuth2Server.server.options.model.getAccessToken(token);
+    const access_token = ctx.socket.handshake.query.access_token;
+    const model = await ctx.app.oAuth2Server.server.options.model.getAccessToken(access_token);
     if (model && model.accountId) {
       ctx.io().join(ctx.socket, model.accountId);
       const subscribes = await ctx.service.subscription.findUserSubscribes(model.accountId);
