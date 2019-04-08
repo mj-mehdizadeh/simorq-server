@@ -110,7 +110,7 @@ class MessageService extends Service {
 
   publish(message) {
     this.ctx.io()
-      .emit(message.chatId, 'update', message.presentable());
+      .emit(message.chatId, 'new-message', message.presentable());
   }
 }
 
