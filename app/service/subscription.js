@@ -2,10 +2,14 @@
 
 const Service = require('egg').Service;
 const mongoose = require('mongoose');
+const map = require('lodash').map;
+const find = require('lodash').find;
+const pick = require('lodash').pick;
 
 class SubscriptionService extends Service {
   findUserSubscribes(createdBy) {
-    return this.ctx.model.Subscription.find({ createdBy }).select({ roomId: 1, chatId: 1, removed: 1 });
+    return this.ctx.model.Subscription.find({ createdBy })
+      .select({ roomId: 1, chatId: 1, removed: 1 });
   }
 
   findUserSubscription(roomId, createdBy) {
@@ -51,12 +55,54 @@ class SubscriptionService extends Service {
     return subscribe;
   }
 
+  async getSubscribesRoom(subscribes, accountId, defaultRooms = null) {
+
+    // find and set subscribes lastMessageId
+    await this.ctx.service.subscription.setSubscribesProps(subscribes, accountId);
+
+    // find subscribe rooms
+    const subscribesRoomsId = map(subscribes, 'roomId');
+    const rooms = defaultRooms || await this.ctx.service.room.findInIds(subscribesRoomsId);
+
+    // subscribe last messages
+    const lastMessageIds = map(subscribes, 'lastMessageId');
+    const messages = await this.ctx.service.message.findIds(lastMessageIds);
+
+    return {
+      rooms: map(rooms, room => room.presentable(find(
+        subscribes,
+        sub => sub.roomId.toString() === room.id.toString()
+      ))),
+      messages: map(messages, message => message.presentable()),
+    };
+  }
+
+  async setSubscribesProps(subscribes, accountId) {
+    // find subscribes props
+    const subscribesAggregate = map(
+      subscribes,
+      subscribe => pick(
+        subscribe, [
+          'chatId',
+          'readInboxMaxId',
+        ])
+    );
+    const subscribeProps = await this.ctx.service.message.findSubscribeLast(subscribesAggregate, accountId);
+
+    // append subscribe
+    subscribes.forEach(sub => {
+      sub.appendProps(find(subscribeProps, { _id: sub.chatId }));
+    });
+  }
+
   join(subscribe) {
-    this.ctx.io().joinAccount(subscribe.createdBy, subscribe.chatId);
+    this.ctx.io()
+      .joinAccount(subscribe.createdBy, subscribe.chatId);
   }
 
   publish(subscribe) {
-    this.ctx.io().emit(subscribe.chatId, 'update', subscribe.presentable());
+    this.ctx.io()
+      .emit(subscribe.chatId, 'update', subscribe.presentable());
   }
 
   constructModel(params) {
