@@ -57,27 +57,6 @@ class SubscriptionService extends Service {
 
   async getSubscribesRoom(subscribes, accountId, defaultRooms = null) {
 
-    // find and set subscribes lastMessageId
-    await this.ctx.service.subscription.setSubscribesProps(subscribes, accountId);
-
-    // find subscribe rooms
-    const subscribesRoomsId = map(subscribes, 'roomId');
-    const rooms = defaultRooms || await this.ctx.service.room.findInIds(subscribesRoomsId);
-
-    // subscribe last messages
-    const lastMessageIds = map(subscribes, 'lastMessageId');
-    const messages = await this.ctx.service.message.findIds(lastMessageIds);
-
-    return {
-      rooms: map(rooms, room => room.presentable(find(
-        subscribes,
-        sub => sub.roomId.toString() === room.id.toString()
-      ))),
-      messages: map(messages, message => message.presentable()),
-    };
-  }
-
-  async setSubscribesProps(subscribes, accountId) {
     // find subscribes props
     const subscribesAggregate = map(
       subscribes,
@@ -93,6 +72,21 @@ class SubscriptionService extends Service {
     subscribes.forEach(sub => {
       sub.appendProps(find(subscribeProps, { _id: sub.chatId }));
     });
+
+    // find subscribe rooms
+    const rooms = defaultRooms || await this.ctx.service.room.findInIds(map(subscribes, 'roomId'));
+
+    // subscribe last messages
+    const lastMessageIds = map(subscribes, 'lastMessageId');
+    const messages = await this.ctx.service.message.findIds(lastMessageIds);
+
+    return {
+      rooms: map(rooms, room => room.presentable(find(
+        subscribes,
+        sub => sub.roomId.toString() === room.id.toString()
+      ))),
+      messages: map(messages, message => message.presentable()),
+    };
   }
 
   join(subscribe) {
