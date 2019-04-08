@@ -11,6 +11,10 @@ class OAuthTokenService extends Service {
     return this.ctx.model.OauthToken.findOne({ refreshToken });
   }
 
+  async deleteRefreshToken(refreshToken) {
+    return this.ctx.model.OauthToken.deleteOne({ refreshToken });
+  }
+
   async insertToken(token, client, user) {
     return this.ctx.model.OauthToken.create({
       accountId: user.id,

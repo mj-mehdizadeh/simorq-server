@@ -58,7 +58,8 @@ module.exports = app => {
     async revokeToken(token) {
       try {
         token.accessToken = await this.generateAccessToken({ _id: token.accountId, roomId: token.roomId }, { clientId: token.clientId });
-        return true;
+        await this.ctx.service.oauthToken.deleteRefreshToken(token.refreshToken);
+        return token;
       } catch (e) {
         return false;
       }
