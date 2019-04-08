@@ -23,6 +23,10 @@ class SubscriptionService extends Service {
       .limit(limit);
   }
 
+  getRoomsSubscription(roomIds, createdBy) {
+    return this.ctx.model.Subscription.find({ roomId: { $in: roomIds }, createdBy });
+  }
+
   async insertChatSubscribe(from, to) {
     const chatId = mongoose.Types.ObjectId();
     const subscribes = await this.ctx.model.Subscription.create({
