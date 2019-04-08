@@ -90,7 +90,8 @@ class MessageService extends Service {
       contact: params.contact,
       location: params.location,
       replyTo: params.replyTo,
-      createdBy: from,
+      createdBy: from.id,
+      roomId: from.roomId,
     });
 
     if (subscribe.removed) {
