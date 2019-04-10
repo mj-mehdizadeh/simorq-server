@@ -23,12 +23,15 @@ class ImportController extends Controller {
     await this.ctx.service.contacts.insertContacts(
       map(
         contacts,
-        contact => ({
-          roomId: find(users, { phoneNumber: contact.phone_number }),
-          title: contact.title,
-          phoneNumber: contact.phone_number,
-          createdBy: this.accountId,
-        })
+        contact => {
+          const user = find(users, { phoneNumber: contact.phone_number });
+          return {
+            roomId: user ? user.roomId : null,
+            title: contact.title,
+            phoneNumber: contact.phone_number,
+            createdBy: this.accountId,
+          };
+        }
       )
     ).catch(() => null);
   }
