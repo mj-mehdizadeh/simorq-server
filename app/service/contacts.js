@@ -7,7 +7,8 @@ class ContactsService extends Service {
   findContacts(createdBy, offset, limit) {
     return this.ctx.model.Contact.find({ createdBy })
       .skip(offset)
-      .limit(limit);
+      .limit(limit)
+      .sort({ title: 1 });
   }
 
   insertContacts(contacts) {

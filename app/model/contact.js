@@ -13,5 +13,13 @@ module.exports = app => {
 
   ContactSchema.index({ createdBy: 1, phoneNumber: 1 }, { unique: true });
 
+  ContactSchema.methods.presentable = function() {
+    return {
+      roomId: this.roomId,
+      title: this.title,
+      phoneNumber: this.phoneNumber,
+    };
+  };
+
   return mongoose.model('Contact', ContactSchema, 'contact');
 };

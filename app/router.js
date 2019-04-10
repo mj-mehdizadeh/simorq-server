@@ -30,6 +30,7 @@ module.exports = app => {
 
   router.post('/contacts', app.oAuth2Server.authenticate(), controller.contacts.import.run);
   router.post('/contacts/check', app.oAuth2Server.authenticate(), controller.contacts.checkHash.run);
+  router.get('/contacts', app.oAuth2Server.authenticate(), controller.contacts.get.run);
 
   router.get('/client/me', app.oAuth2Server.authenticate(), controller.client.me.run);
   router.get('/client/wallpaper', app.oAuth2Server.authenticate(), controller.client.wallpaper.run);
