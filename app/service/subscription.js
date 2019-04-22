@@ -15,6 +15,9 @@ class SubscriptionService extends Service {
   findUserSubscription(roomId, createdBy) {
     return this.ctx.model.Subscription.findOne({ roomId, createdBy });
   }
+  findUserSubscriptionByChatId(chatId, createdBy, select = null) {
+    return this.ctx.model.Subscription.findOne({ chatId, createdBy }).select(select);
+  }
 
   getSubscribes(createdBy, skip, limit) {
     // todo sort by lastUpdate
@@ -60,6 +63,13 @@ class SubscriptionService extends Service {
   }
 
   async getSubscribesRoom(subscribes, accountId, defaultRooms = null) {
+
+    if (!subscribes.length) {
+      return {
+        rooms: defaultRooms ? [ defaultRooms.presentable() ] : [],
+        messages: [],
+      };
+    }
 
     // find subscribes props
     const subscribesAggregate = map(
