@@ -15,6 +15,7 @@ class SubscriptionService extends Service {
   findUserSubscription(roomId, createdBy) {
     return this.ctx.model.Subscription.findOne({ roomId, createdBy });
   }
+
   findUserSubscriptionByChatId(chatId, createdBy, select = null) {
     return this.ctx.model.Subscription.findOne({ chatId, createdBy }).select(select);
   }
@@ -66,7 +67,7 @@ class SubscriptionService extends Service {
 
     if (!subscribes.length) {
       return {
-        rooms: defaultRooms ? [ defaultRooms.presentable() ] : [],
+        rooms: defaultRooms ? map(defaultRooms, room => room.presentable()) : [],
         messages: [],
       };
     }
