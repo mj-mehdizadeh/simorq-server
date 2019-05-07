@@ -70,6 +70,12 @@ class UploadController extends Controller {
     model.height = metadata.height;
 
     const horizontal = metadata.width > metadata.height;
+    if ((horizontal && (model.height * 320) / model.width < 100) || (
+      horizontal && (model.width * 320) / model.height < 100
+    )) {
+      return;
+    }
+
     const readableStream = fs.createReadStream(model.target());
     const writeStream = fs.createWriteStream(model.target(selector));
 
